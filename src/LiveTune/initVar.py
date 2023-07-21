@@ -14,41 +14,41 @@ class initVar:
         self.instances.append(self)
 
     def __str__(self):
-        return str(self.value)
+        return str(self.var_value)
 
     def __repr__(self):
-        return f"Number({self.value})"
+        return f"initVar({self.var_value})"
 
     def __eq__(self, other):
         if isinstance(other, initVar):
-            return self.value == other.value
+            return self.var_value == other.var_value
         return False
 
     def __add__(self, other):
         if isinstance(other, initVar):
-            return initVar(self.value + other.value)
-        raise TypeError("Unsupported operand type for +: 'Number' and '{}'".format(type(other).__name__))
+            return initVar(self.var_value + other.var_value)
+        raise TypeError("Unsupported operand type for +: 'initVar' and '{}'".format(type(other).__name__))
 
     def __sub__(self, other):
         if isinstance(other, initVar):
-            return initVar(self.value - other.value)
-        raise TypeError("Unsupported operand type for -: 'Number' and '{}'".format(type(other).__name__))
+            return initVar(self.var_value - other.var_value)
+        raise TypeError("Unsupported operand type for -: 'initVar' and '{}'".format(type(other).__name__))
 
     def __mul__(self, other):
         if isinstance(other, initVar):
-            return initVar(self.value * other.value)
-        raise TypeError("Unsupported operand type for *: 'Number' and '{}'".format(type(other).__name__))
+            return initVar(self.var_value * other.var_value)
+        raise TypeError("Unsupported operand type for *: 'initVar' and '{}'".format(type(other).__name__))
 
     def __rmul__(self, other):
         return self.__mul__(other)
 
     def __truediv__(self, other):
         if isinstance(other, initVar):
-            if other.value != 0:
-                return initVar(self.value / other.value)
+            if other.var_value != 0:
+                return initVar(self.var_value / other.var_value)
             raise ZeroDivisionError("Division by zero is not allowed.")
-        raise TypeError("Unsupported operand type for /: 'Number' and '{}'".format(type(other).__name__))
-    
+        raise TypeError("Unsupported operand type for /: 'initVar' and '{}'".format(type(other).__name__))
+
     def __getitem__(self, key):
         if key == 'value':
             return self.var_value
@@ -60,6 +60,7 @@ class initVar:
                 self.var_value = value
             return
         raise KeyError("Invalid key '{}' for __setitem__".format(key))
+
     @classmethod
     def updateVar(cls):
         while True:
@@ -102,10 +103,3 @@ class initVar:
 
             client_thread = threading.Thread(target=self.handleClient, args=(connection,))
             client_thread.start()
-
-# Define two variables
-var1 = initVar('var1', 0, 12345)
-var2 = initVar('var2', 5, 12346)
-
-var1.start()
-var2.start()
