@@ -6,8 +6,7 @@ class initVar:
     instances = []
     update_thread = None
 
-    def __init__(self, var_name, initial_value, port):
-        self.var_name = var_name
+    def __init__(self, initial_value, port):
         self.var_value = initial_value
         self.lock = threading.Lock()
         self.port = port

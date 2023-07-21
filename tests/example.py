@@ -1,8 +1,8 @@
 import LiveTune as lt
 
 # Define two variables
-var1 = lt.initVar('var1', 0, 12345)
-var2 = lt.initVar('var2', 5, 12346)
+var1 = lt.initVar(0, 12345)
+var2 = lt.initVar(5, 12346)
 
 # Start the threads for variable updates
 var1.start()
