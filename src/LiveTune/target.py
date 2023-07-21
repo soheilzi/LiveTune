@@ -60,7 +60,6 @@ class initVar:
                 self.var_value = value
             return
         raise KeyError("Invalid key '{}' for __setitem__".format(key))
-
     @classmethod
     def updateVar(cls):
         while True:
