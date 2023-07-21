@@ -66,10 +66,7 @@ class initVar:
         while True:
             for instance in cls.instances:
                 with instance.lock:
-                    instance.var_value += 1
-                    print(f"{instance.var_name} value:", instance.var_value)
-
-            time.sleep(1)
+                    pass  # Removed print statement for updating variable values
 
     def handleClient(self, connection):
         while True:
@@ -95,11 +92,14 @@ class initVar:
         listenerSocket.bind(('localhost', self.port))
         listenerSocket.listen(1)
 
-        print(f"Listening for client connections on port {self.port}...")
+        # Removed print statement for listening
+        # print(f"Listening for client connections on port {self.port}...")
 
         while True:
             connection, address = listenerSocket.accept()
-            print(f"Connected to client: {address}")
+            # Removed print statement for connected client
+            # print(f"Connected to client: {address}")
 
             client_thread = threading.Thread(target=self.handleClient, args=(connection,))
             client_thread.start()
+
