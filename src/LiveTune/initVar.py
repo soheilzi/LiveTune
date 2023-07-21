@@ -11,6 +11,7 @@ class initVar:
         self.lock = threading.Lock()
         self.port = port
         self.instances.append(self)
+        self.enable()
 
     def __str__(self):
         return str(self.var_value)
@@ -78,7 +79,7 @@ class initVar:
 
         connection.close()
 
-    def start(self):
+    def enable(self):
         if not initVar.update_thread:
             initVar.update_thread = threading.Thread(target=initVar.updateVar)
             initVar.update_thread.start()

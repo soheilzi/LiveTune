@@ -5,9 +5,6 @@ import time
 var1 = initVar('var1', 0, 12345)
 var2 = initVar('var2', 5, 12346)
 
-var1.start()
-var2.start()
-
 # Sleep for 5 seconds to observe the update behavior
 time.sleep(5)
 
