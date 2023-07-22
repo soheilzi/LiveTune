@@ -1,6 +1,7 @@
 import time
 import threading
 import socket
+from typing import Any
 
 class initVar:
     instances = []
@@ -60,6 +61,10 @@ class initVar:
                 self.var_value = value
             return
         raise KeyError("Invalid key '{}' for __setitem__".format(key))
+
+    def __call__(self, *args: Any, **kwds: Any) -> Any:
+        return self.var_value
+
 
     @classmethod
     def updateVar(cls):
