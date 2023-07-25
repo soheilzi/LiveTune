@@ -1,4 +1,4 @@
-from initVar import initVar
+from LiveTune import initVar
 import time
 
 # Define two variables

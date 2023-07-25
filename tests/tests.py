@@ -5,7 +5,7 @@ import time
 import threading
 import socket
 
-from LiveTune import initVar  # Replace 'your_module' with the actual module name containing the initVar class
+from LiveTune import initVar
 
 
 class TestInitVar(unittest.TestCase):
