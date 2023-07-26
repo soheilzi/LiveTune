@@ -8,6 +8,12 @@ class initVar:
     update_thread = None
 
     def __init__(self, initial_value, port):
+        if not isinstance(initial_value, (int, float)):
+            raise TypeError("Initial value must be a number (int or float).")
+        
+        if port < 0:
+            raise ValueError("Port number cannot be negative.")
+        
         self.var_value = initial_value
         self.lock = threading.Lock()
         self.port = port
@@ -27,28 +33,81 @@ class initVar:
 
     def __add__(self, other):
         if isinstance(other, initVar):
-            return initVar(self.var_value + other.var_value)
-        raise TypeError("Unsupported operand type for +: 'initVar' and '{}'".format(type(other).__name__))
+            return self.var_value + other.var_value
+        raise TypeError(f"Unsupported operand type for +: 'initVar' and '{type(other).__name__}'")
 
     def __sub__(self, other):
         if isinstance(other, initVar):
-            return initVar(self.var_value - other.var_value)
-        raise TypeError("Unsupported operand type for -: 'initVar' and '{}'".format(type(other).__name__))
+            return self.var_value - other.var_value
+        raise TypeError(f"Unsupported operand type for -: 'initVar' and '{type(other).__name__}'")
 
     def __mul__(self, other):
         if isinstance(other, initVar):
-            return initVar(self.var_value * other.var_value)
-        raise TypeError("Unsupported operand type for *: 'initVar' and '{}'".format(type(other).__name__))
-
-    def __rmul__(self, other):
-        return self.__mul__(other)
+            return self.var_value * other.var_value
+        raise TypeError(f"Unsupported operand type for *: 'initVar' and '{type(other).__name__}'")
 
     def __truediv__(self, other):
         if isinstance(other, initVar):
             if other.var_value != 0:
-                return initVar(self.var_value / other.var_value)
+                return self.var_value / other.var_value
             raise ZeroDivisionError("Division by zero is not allowed.")
-        raise TypeError("Unsupported operand type for /: 'initVar' and '{}'".format(type(other).__name__))
+        elif isinstance(other, int):
+            if other != 0:
+                return self.var_value / other
+            raise ZeroDivisionError("Division by zero is not allowed.")
+        raise TypeError(f"Unsupported operand type for /: 'initVar' and '{type(other).__name__}'")
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
+    
+    def __iadd__(self, other):
+        if isinstance(other, initVar):
+            with self.lock:
+                self.var_value += other.var_value
+            return self
+        elif isinstance(other, int):
+            with self.lock:
+                self.var_value += other
+            return self
+        raise TypeError("Unsupported operand type for +=: 'initVar' and '{}'".format(type(other).__name__))
+    
+    def __isub__(self, other):
+        if isinstance(other, initVar):
+            with self.lock:
+                self.var_value -= other.var_value
+            return self
+        elif isinstance(other, int):
+            with self.lock:
+                self.var_value -= other
+            return self
+        raise TypeError("Unsupported operand type for -=: 'initVar' and '{}'".format(type(other).__name__))
+
+    def __imul__(self, other):
+        if isinstance(other, initVar):
+            with self.lock:
+                self.var_value *= other.var_value
+            return self
+        elif isinstance(other, int):
+            with self.lock:
+                self.var_value *= other
+            return self
+        raise TypeError("Unsupported operand type for *=: 'initVar' and '{}'".format(type(other).__name__))
+
+    def __itruediv__(self, other):
+        if isinstance(other, initVar):
+            if other.var_value != 0:
+                with self.lock:
+                    self.var_value /= other.var_value
+                return self
+            raise ZeroDivisionError("Division by zero is not allowed.")
+        elif isinstance(other, int):
+            if other != 0:
+                with self.lock:
+                    self.var_value /= other
+                return self
+            raise ZeroDivisionError("Division by zero is not allowed.")
+        raise TypeError("Unsupported operand type for /=: 'initVar' and '{}'".format(type(other).__name__))
+
 
     def __getitem__(self, key):
         if key == 'value':
@@ -92,12 +151,18 @@ class initVar:
         listenerThread = threading.Thread(target=self.startListener)
         listenerThread.start()
 
+
     def startListener(self):
         listenerSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        listenerSocket.bind(('localhost', self.port))
+
+        try:
+            listenerSocket.bind(('localhost', self.port))
+        except socket.error as e:
+            raise OSError(f"Error binding to port {self.port}: {e}")
+
         listenerSocket.listen(1)
 
-        # Removed print statement for listening
+        # Debug print statement for listening
         # print(f"Listening for client connections on port {self.port}...")
 
         while True:
@@ -107,4 +172,3 @@ class initVar:
 
             client_thread = threading.Thread(target=self.handleClient, args=(connection,))
             client_thread.start()
-
