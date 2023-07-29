@@ -6,7 +6,7 @@ import socket
 def updateVar(var_value, port):
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect(('localhost', port))
-    data = str("type?")
+    # data = str("type?")
     data = str(var_value) 
     client_socket.send(data.encode())
 
