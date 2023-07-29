@@ -2,6 +2,7 @@ import unittest
 import time
 import threading
 import socket
+import os
 
 # from LiveTune import initVar
 from LiveTune.initVar import initVar
@@ -137,6 +138,21 @@ class TestInitVar(unittest.TestCase):
         with self.assertRaises(ValueError):
             _ = initVar(10, -1)
 
+    # def test_multiple_changes
+
+    def test_update(self):
+        # Assuming initVar() function is already defined and var.var_value is set to 10
+        var = initVar(10, 8015)
+        # Run the 'updateVar' command in the terminal
+        try:
+            time.sleep(1)
+            print(os.system('updateVar 5 8015'))
+            time.sleep(1)
+        except Exception as e:
+            self.fail(f"Command execution failed with error: {e}")
+        
+        # Now check if var.var_value has been updated to 5
+        self.assertEqual(var.var_value, 5)
 
 if __name__ == '__main__':
     unittest.main()

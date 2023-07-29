@@ -7,14 +7,19 @@ class initVar:
     instances = []
     update_thread = None
 
-    def __init__(self, initial_value, port):
-        if not isinstance(initial_value, (int, float)):
+    def __init__(self, initial_value, port, options=None):
+        if not isinstance(initial_value, (int, float, bool)):
             raise TypeError("Initial value must be a number (int or float).")
         
+        if options is not None:
+            if not isinstance(initial_value, (bool)):
+                raise TypeError("Only boolean values may specify options.")
+
         if port < 0:
             raise ValueError("Port number cannot be negative.")
         
         self.var_value = initial_value
+        self.dtype = type(initial_value)
         self.lock = threading.Lock()
         self.port = port
         self.instances.append(self)
@@ -125,12 +130,6 @@ class initVar:
         return self.var_value
 
 
-    @classmethod
-    def updateVar(cls):
-        while True:
-            for instance in cls.instances:
-                with instance.lock:
-                    pass  # Removed print statement for updating variable values
 
     def handleClient(self, connection):
         while True:
@@ -144,10 +143,6 @@ class initVar:
         connection.close()
 
     def enable(self):
-        if not initVar.update_thread:
-            initVar.update_thread = threading.Thread(target=initVar.updateVar)
-            initVar.update_thread.start()
-
         listenerThread = threading.Thread(target=self.startListener)
         listenerThread.start()
 
