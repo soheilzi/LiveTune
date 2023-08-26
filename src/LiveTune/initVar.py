@@ -132,13 +132,21 @@ class initVar:
 
 
     def handleClient(self, connection):
+        REQTYPE = "request_type: update_var"
+
+        if connection.recv(1024).decode() == REQTYPE:
+            connection.send(str(self.dtype.__name__).encode())
+        else:
+            connection.close()
+            return
+
         while True:
             data = connection.recv(1024).decode()
             if not data:
                 break
 
             with self.lock:
-                self.var_value = int(data)
+                self.var_value = self.dtype(data)
 
         connection.close()
 

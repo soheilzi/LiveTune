@@ -6,6 +6,7 @@ import os
 
 # from LiveTune import initVar
 from LiveTune.initVar import initVar
+from LiveTune.updateVar import updateVar, typeChecker
 
 class TestInitVar(unittest.TestCase):
 
@@ -140,13 +141,45 @@ class TestInitVar(unittest.TestCase):
 
     # def test_multiple_changes
 
+    # make a test case for the typeChecker in updateVar.py
+    def test_typeChecker(self):
+        # Test invalid type for var_value
+        with self.assertRaises(TypeError):
+            _ = typeChecker("invalid_value")
+
+# test this function with unit tests
+
+
+# def typeChecker(var_value):
+#     if var_value == "True" or var_value == "False":
+#         return "bool"
+#     elif var_value.isdigit():
+#         return "int"
+#     elif len(var_value) == 1:
+#         return "char"
+#     elif var_value.replace('.', '', 1).isdigit():
+#         return "float"
+#     else:
+#         return "string"
+
+    def test_typeChecker(self):
+        # Test invalid type for var_value
+        self.assertEqual(typeChecker("True"), "bool", "Expected 'bool' but got something else")
+        self.assertEqual(typeChecker("False"), "bool", "Expected 'bool' but got something else")
+        self.assertEqual(typeChecker("1"), "int", "Expected 'int' but got something else")
+        self.assertEqual(typeChecker("0"), "int", "Expected 'int' but got something else")
+        self.assertEqual(typeChecker("a"), "char", "Expected 'char' but got something else")
+        self.assertEqual(typeChecker("1.0"), "float", "Expected 'float' but got something else")
+        self.assertEqual(typeChecker("0.0"), "float", "Expected 'float' but got something else")
+        self.assertEqual(typeChecker("a"), "char", "Expected 'char' but got something else")
+        self.assertEqual(typeChecker("burger"), "string", "Expected 'string' but got something else")
+
     def test_update(self):
         # Assuming initVar() function is already defined and var.var_value is set to 10
         var = initVar(10, 8015)
         # Run the 'updateVar' command in the terminal
         try:
-            time.sleep(1)
-            print(os.system('updateVar 5 8015'))
+            print(os.system('python3 src/LiveTune/updateVar.py -v 5 -p 8015'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
