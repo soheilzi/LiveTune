@@ -25,7 +25,7 @@ class initTrigger:
         return f"initVar({self.var_value})"
 
     def __eq__(self, other):
-        if isinstance(other, triggerVar):
+        if isinstance(other, initTrigger):
             return self.var_value == other.var_value
         return False
 
