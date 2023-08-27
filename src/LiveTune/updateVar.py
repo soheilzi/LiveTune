@@ -43,7 +43,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--value", "-v", type=str, help="Value of the variable")
     parser.add_argument("--port", "-p", type=int, help="Port number")
-    parser.add_argument("--trigger", "-t", action="store_true", help="Trigger the update")
 
     args = parser.parse_args()
 

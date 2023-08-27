@@ -6,9 +6,10 @@ import os
 
 # from LiveTune import initVar
 from LiveTune.initVar import initVar
-from LiveTune.updateVar import updateVar, typeChecker
+from LiveTune.updateVar import typeChecker
+from LiveTune.initTrigger import initTrigger
 
-class TestInitVar(unittest.TestCase):
+class TestLiveTune(unittest.TestCase):
 
     def test_initialization(self):
         var = initVar(10, 8000)
@@ -186,6 +187,27 @@ class TestInitVar(unittest.TestCase):
         
         # Now check if var.var_value has been updated to 5
         self.assertEqual(var.var_value, 5)
+
+    def test_trigger(self):
+        # Assuming initVar() function is already defined and var.var_value is set to 10
+        bool = initTrigger(10, 8017)
+        testSuccess = True
+        testComplete = False
+
+        while(testSuccess == False and testComplete == False):
+            if bool == True:
+                testSuccess = False
+
+        # Run the 'triggerVar' command in the terminal
+        try:
+            print(os.system('python3 src/LiveTune/triggerVar.py -p 8017'))
+            time.sleep(1)
+        except Exception as e:
+            self.fail(f"Command execution failed with error: {e}")
+        
+        # Now check if the trigger was made successfully and end loop
+        testComplete = True
+        self.assertEqual(testSuccess, True)
 
 if __name__ == '__main__':
     unittest.main()

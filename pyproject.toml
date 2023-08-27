@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "LiveTune"
 version = "0.0.1"
 authors = [
-  { name="Aiden Tabrizi", email="aidentabrizi@icloud.com" },
+  { name="Aiden Tabrizi", email="taiden@ucsd.edu" },
   { name="Soheil Zibakhsh", email="szibakhshshabgahi@ucsd.edu" },
 ]
 description = "Python package for ML developers and researchers to change certain variables while their code is executing to make the task of training a ML project easier. This package will allow you to tune some parameters while your code is live from outside of the program."
