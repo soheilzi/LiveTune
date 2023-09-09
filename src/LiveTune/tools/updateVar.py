@@ -4,6 +4,7 @@ import argparse
 import socket
 
 REQTYPE = "request_type: update_var"
+TRIGGER = "request_type: trigger_var"
 
 def typeChecker(var_value):
     if var_value == "True" or var_value == "False":
@@ -60,12 +61,13 @@ def main():
     parser.add_argument("--value", "-v", type=str, help="Value of the variable")
     parser.add_argument("--port", "-p", type=int, help="Port number")
     parser.add_argument("--tag", "-t", type=str, help="Tag of the variable")
+    parser.add_argument("--trigger", "-tr", action="store_true", help="Trigger the variable")
 
     args = parser.parse_args()
 
     # Call the updateVar function with the provided arguments
     variable_port = request_port(args.tag, args.port)
-    updateVar(args.value, variable_port)
+    updateVar(args.value, variable_port, args.trigger)
 
 if __name__ == '__main__':
     main()
