@@ -5,20 +5,29 @@ from typing import Any
 class initVar:
     instances = []
     update_thread = None
+    dictionary_port = []
 
-    def __init__(self, initial_value, port):
+    def __init__(self, initial_value, tag):
         if not isinstance(initial_value, (int, float)):
             raise TypeError("Initial value must be a number (int or float).")
+        
+        if self.dictionary_port == []:
+            sock = socket.socket()
+            sock.bind(('', 0))
+            self.dictionary_port.append(sock.getsockname()[1])
+            print("Port number for initVar dictionary: {}".format(self.dictionary_port[0]))
 
-        if port < 1024 or port > 65535:
-            raise ValueError("Port number cannot be negative.")
+        sock = socket.socket()
+        sock.bind(('', 0))
+        self.port = sock.getsockname()[1]
         
         self.var_value = initial_value
+        self.tag = tag
         self.dtype = type(initial_value)
         self.lock = threading.Lock()
-        self.port = port
         self.instances.append(self)
         self.enable()
+        self.enable_dictionary_port()
 
     def __str__(self):
         return str(self.var_value)
@@ -137,7 +146,7 @@ class initVar:
     def handleClient(self, connection):
         REQTYPE = "request_type: update_var"
 
-        if connection.recv(1024).decode() == REQTYPE:
+        if connection.recv(1024).decode() == REQTYPE: # Receive request type from the client
             connection.send(str(self.dtype.__name__).encode())
         else:
             connection.close()
@@ -156,6 +165,48 @@ class initVar:
     def enable(self):
         listenerThread = threading.Thread(target=self.startListener)
         listenerThread.start()
+
+    def _find_port(self, tag):
+        for instance in self.instances:
+            if instance.tag == tag:
+                return str(instance.port)
+        raise KeyError(f"Tag '{tag}' not found.")
+
+    def enable_dictionary_port(self):
+        listenerThread = threading.Thread(target=self.startListener_dictionary_port)
+        listenerThread.start()
+
+    def handleClient_dictionary_port(self, connection):
+        REQTYPE = "request_type: dictionary_entry - " # the send format is "request_type: dictionary_entry - <tag>"
+        print("Handling client dictionary port")
+        message = connection.recv(1024).decode()
+        if REQTYPE in message:
+            print("Received request for port:", message)
+            tag = message[33:] # substring from 33 till end to get tag
+            connection.send(self._find_port(tag).encode())
+        else:
+            print("Closing connection")
+            connection.close()
+
+
+    def startListener_dictionary_port(self):
+        listenerSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            listenerSocket.bind(('localhost', self.dictionary_port[0]))
+            print("before listen")
+            listenerSocket.listen(1)
+
+            # Debug print statement for listening
+            # print(f"Listening for client connections on port {self.dictionary_port[0]}...")
+
+            while True:
+                print("before accept")
+                connection, address = listenerSocket.accept()
+
+                client_thread = threading.Thread(target=self.handleClient_dictionary_port, args=(connection,))
+                client_thread.start()
+        finally:
+            listenerSocket.close()
 
     def check_port(self, port):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

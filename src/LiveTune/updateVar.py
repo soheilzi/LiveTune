@@ -38,16 +38,34 @@ def updateVar(var_value, port):
     
     client_socket.close()
 
+def request_port(tag, port):
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    client_socket.connect(('localhost', port))
+
+    client_socket.send(f"request_type: dictionary_entry - {tag}".encode())
+    print(f"Sent request for port of tag '{tag}'")
+    response = client_socket.recv(1024).decode()
+    print(f"Received port {response} for tag '{tag}'")
+
+    client_socket.close()
+
+    return int(response)
+
+
+
 def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--value", "-v", type=str, help="Value of the variable")
     parser.add_argument("--port", "-p", type=int, help="Port number")
+    parser.add_argument("--tag", "-t", type=str, help="Tag of the variable")
 
     args = parser.parse_args()
 
     # Call the updateVar function with the provided arguments
-    updateVar(args.value, args.port)
+    variable_port = request_port(args.tag, args.port)
+    updateVar(args.value, variable_port)
 
 if __name__ == '__main__':
     main()
