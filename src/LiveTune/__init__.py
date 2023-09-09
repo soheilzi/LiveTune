@@ -1,9 +1,9 @@
 # add license header
 
 from LiveTune.initVar import initVar
-from LiveTune.triggerVar import triggerVar
+from LiveTune.initTrigger import initTrigger
 
 __all__ =(
     "initVar",
-    "triggerVar",
+    "initTrigger",
 )

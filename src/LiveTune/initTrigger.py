@@ -1,21 +1,15 @@
 import threading
 import socket
 from typing import Any
+from LiveTune.liveVar import liveVar
 
 TRIGGER = "request_type: trigger_var"
 
-class initTrigger:
-    instances = []
-    update_thread = None
+class initTrigger(liveVar):
 
-    def __init__(self, port, options=None):
-        if port < 0:
-            raise ValueError("Port number cannot be negative.")
-        
+    def __init__(self, tag):
+        super().__init__(tag)
         self.state_is_triggered = False
-        self.lock = threading.Lock()
-        self.port = port
-        self.instances.append(self)
         self.enable()
 
     def __str__(self):
@@ -46,29 +40,3 @@ class initTrigger:
                     self.state_is_triggered = True
 
         connection.close()
-
-    def enable(self):
-        listenerThread = threading.Thread(target=self.startListener)
-        listenerThread.start()
-
-
-    def startListener(self):
-        listenerSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        try:
-            listenerSocket.bind(('localhost', self.port))
-        except socket.error as e:
-            raise OSError(f"Error binding to port {self.port}: {e}")
-
-        listenerSocket.listen(1)
-
-        # Debug print statement for listening
-        # print(f"Listening for client connections on port {self.port}...")
-
-        while True:
-            connection, address = listenerSocket.accept()
-            # Removed print statement for connected client
-            # print(f"Connected to client: {address}")
-
-            client_thread = threading.Thread(target=self.handleClient, args=(connection,))
-            client_thread.start()
