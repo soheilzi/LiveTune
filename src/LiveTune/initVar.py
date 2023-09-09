@@ -6,13 +6,9 @@ class initVar:
     instances = []
     update_thread = None
 
-    def __init__(self, initial_value, port, options=None):
-        if not isinstance(initial_value, (int, float, bool)):
+    def __init__(self, initial_value, port):
+        if not isinstance(initial_value, (int, float)):
             raise TypeError("Initial value must be a number (int or float).")
-        
-        if options is not None:
-            if not isinstance(initial_value, (bool)):
-                raise TypeError("Only boolean values may specify options.")
 
         if port < 0:
             raise ValueError("Port number cannot be negative.")
