@@ -30,6 +30,14 @@ class initTrigger(liveVar):
         return False
 
     def handleClient(self, connection):
+        REQTYPE = "request_type: update_var"
+        
+        if connection.recv(1024).decode() == REQTYPE: # Receive request type from the client
+            connection.send(str("trigger").encode())
+        else:
+            connection.close()
+            return
+        
         while True:
             data = connection.recv(1024).decode()
             if not data:

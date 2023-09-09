@@ -18,7 +18,7 @@ def typeChecker(var_value):
     else:
         return "string"
 
-def updateVar(var_value, port):
+def updateVar(var_value, port, trigger):
     # print("Starting...")
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -30,7 +30,9 @@ def updateVar(var_value, port):
 
     response = client_socket.recv(1024).decode()  # Receive response type from the server
 
-    if response == typeChecker(var_value): # Check if var matches the response type
+    if trigger and (response == "trigger"):
+        client_socket.send(TRIGGER.encode())  # Send request type to the server
+    elif response == typeChecker(var_value): # Check if var matches the response type
         data = var_value
         client_socket.send(data.encode())
         # print("Sent data")
