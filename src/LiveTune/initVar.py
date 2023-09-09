@@ -116,6 +116,10 @@ class initVar:
     def __getitem__(self, key):
         if key == 'value':
             return self.var_value
+        if key == 'dtype':
+            return self.dtype
+        if key == 'port':
+            return self.port
         raise KeyError("Invalid key '{}' for __getitem__".format(key))
 
     def __setitem__(self, key, value):
@@ -123,6 +127,10 @@ class initVar:
             with self.lock:
                 self.var_value = value
             return
+        if key == 'dtype':
+            raise TypeError("Cannot change dtype of initVar.")
+        if key == 'port':
+            raise TypeError("Cannot change port of initVar.")
         raise KeyError("Invalid key '{}' for __setitem__".format(key))
 
     def __call__(self, *args: Any, **kwds: Any) -> Any:

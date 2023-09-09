@@ -15,6 +15,7 @@ requires-python = ">=3.7"
 install_requires = [
     'threading',
     'socket',
+    'typing',
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
