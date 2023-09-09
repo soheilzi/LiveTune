@@ -14,7 +14,7 @@ class initVar:
             if not isinstance(initial_value, (bool)):
                 raise TypeError("Only boolean values may specify options.")
 
-        if port < 0:
+        if port < 1024 or port > 65535:
             raise ValueError("Port number cannot be negative.")
         
         self.var_value = initial_value

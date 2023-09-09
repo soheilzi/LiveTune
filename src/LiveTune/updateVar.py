@@ -38,7 +38,7 @@ def updateVar(var_value, port):
     
     client_socket.close()
 
-if __name__ == '__main__':
+def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--value", "-v", type=str, help="Value of the variable")
@@ -47,5 +47,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Call the updateVar function with the provided arguments
-
     updateVar(args.value, args.port)
+
+if __name__ == '__main__':
+    main()
+
