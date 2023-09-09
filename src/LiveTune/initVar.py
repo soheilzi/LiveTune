@@ -6,13 +6,9 @@ class initVar:
     instances = []
     update_thread = None
 
-    def __init__(self, initial_value, port, options=None):
-        if not isinstance(initial_value, (int, float, bool)):
+    def __init__(self, initial_value, port):
+        if not isinstance(initial_value, (int, float)):
             raise TypeError("Initial value must be a number (int or float).")
-        
-        if options is not None:
-            if not isinstance(initial_value, (bool)):
-                raise TypeError("Only boolean values may specify options.")
 
         if port < 1024 or port > 65535:
             raise ValueError("Port number cannot be negative.")
@@ -161,24 +157,30 @@ class initVar:
         listenerThread = threading.Thread(target=self.startListener)
         listenerThread.start()
 
+    def check_port(self, port):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            try:
+                s.bind(('localhost', port))
+            except OSError:
+                return False  # Port is already in use
+            return True  # Port is available
 
     def startListener(self):
         listenerSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
         try:
+            if not self.check_port(self.port):
+                raise RuntimeError(f"Port {self.port} is already in use by a different variable or program. Please use a different port.")
+
             listenerSocket.bind(('localhost', self.port))
-        except socket.error as e:
-            raise OSError(f"Error binding to port {self.port}: {e}")
+            listenerSocket.listen(1)
 
-        listenerSocket.listen(1)
+            # Debug print statement for listening
+            # print(f"Listening for client connections on port {self.port}...")
 
-        # Debug print statement for listening
-        # print(f"Listening for client connections on port {self.port}...")
+            while True:
+                connection, address = listenerSocket.accept()
 
-        while True:
-            connection, address = listenerSocket.accept()
-            # Removed print statement for connected client
-            # print(f"Connected to client: {address}")
-
-            client_thread = threading.Thread(target=self.handleClient, args=(connection,))
-            client_thread.start()
+                client_thread = threading.Thread(target=self.handleClient, args=(connection,))
+                client_thread.start()
+        finally:
+            listenerSocket.close()

@@ -130,7 +130,9 @@ class TestLiveTune(unittest.TestCase):
     def test_duplicate_port_usage(self):
         # Test duplicate port usage
         var1 = initVar(10, 8014)
+        print("Testing duplicate port usage, runtime error is expected.")
         try:
+            time.sleep(1)
             var2 = initVar(20, 8014)
         except Exception as e:
             self.assertIn("Error binding to port 8014", str(e))
@@ -189,8 +191,7 @@ class TestLiveTune(unittest.TestCase):
         self.assertEqual(var.var_value, 5)
 
     def test_trigger(self):
-        # Assuming initVar() function is already defined and var.var_value is set to 10
-        bool = initTrigger(10, 8017)
+        bool = initTrigger(8016)
         testSuccess = True
         testComplete = False
 
@@ -200,7 +201,7 @@ class TestLiveTune(unittest.TestCase):
 
         # Run the 'triggerVar' command in the terminal
         try:
-            print(os.system('python3 src/LiveTune/triggerVar.py -p 8017'))
+            print(os.system('python3 src/LiveTune/triggerVar.py -p 8016'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
