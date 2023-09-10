@@ -6,7 +6,7 @@ import socket
 REQTYPE = "request_type: update_var"
 TRIGGER = "request_type: trigger_var"
 
-from LiveTune.liveVar import Color
+from LiveTune.LiveVariableBase import Color
 
 def typeChecker(s):
     """
@@ -39,7 +39,7 @@ def typeChecker(s):
 
     return "string"
 
-def updateVar(var_value, port, trigger):
+def tune(var_value, port, trigger):
     # print("Starting...")
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -87,9 +87,9 @@ def main():
 
     args = parser.parse_args()
 
-    # Call the updateVar function with the provided arguments
+    # Call the tune function with the provided arguments
     variable_port = request_port(args.tag, args.port)
-    updateVar(args.value, variable_port, args.trigger)
+    tune(args.value, variable_port, args.trigger)
 
 if __name__ == '__main__':
     main()

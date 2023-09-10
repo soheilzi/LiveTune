@@ -4,29 +4,29 @@ import threading
 import socket
 import os
 
-# from LiveTune import initVar
-from LiveTune.initVar import initVar
-from LiveTune.tools.updateVar import typeChecker
-from LiveTune.initTrigger import initTrigger
+# from LiveTune import liveVar
+from LiveTune.liveVar import liveVar
+from LiveTune.tools.tune import typeChecker
+from LiveTune.liveTrigger import liveTrigger
 
 class TestLiveTune(unittest.TestCase):
 
-    def test_initialization_initVar(self):
-        var = initVar(10, 'a')
-        self.assertEqual(var(), 10, "InitVar test failed")
-        self.assertEqual(var.var_value, 10, "InitVar test failed")
-        self.assertEqual(var.dtype, int, "InitVar test failed")
-        self.assertEqual(var.tag, 'a', "InitVar test failed")
+    def test_initialization_liveVar(self):
+        var = liveVar(10, 'a')
+        self.assertEqual(var(), 10, "liveVar test failed")
+        self.assertEqual(var.var_value, 10, "liveVar test failed")
+        self.assertEqual(var.dtype, int, "liveVar test failed")
+        self.assertEqual(var.tag, 'a', "liveVar test failed")
 
-    def test_initialization_initTrigger(self):
-        var = initTrigger('b')
-        self.assertEqual(var.tag, 'b', "InitTrigger test failed")
-        self.assertEqual(var(), False, "InitTrigger test failed")
+    def test_initialization_liveTrigger(self):
+        var = liveTrigger('b')
+        self.assertEqual(var.tag, 'b', "liveTrigger test failed")
+        self.assertEqual(var(), False, "liveTrigger test failed")
         
 
     def test_arithmetic_operations(self):
-        var1 = initVar(10, 'c')
-        var2 = initVar(20, 'd')
+        var1 = liveVar(10, 'c')
+        var2 = liveVar(20, 'd')
 
         # Test addition
         result_add = var1 + var2
@@ -46,10 +46,10 @@ class TestLiveTune(unittest.TestCase):
 
         # Test division by zero
         with self.assertRaises(ZeroDivisionError):
-            _ = var1 / initVar(0, 'z')
+            _ = var1 / liveVar(0, 'z')
 
     def test_get_set_item(self):
-        var = initVar(5, 'e')
+        var = liveVar(5, 'e')
         self.assertEqual(var['value'], 5)
         var['value'] = 15
         self.assertEqual(var['value'], 15)
@@ -63,7 +63,7 @@ class TestLiveTune(unittest.TestCase):
             var['invalid_key'] = 25
 
     def test_thread_safety(self):
-        var = initVar(0, 'f')
+        var = liveVar(0, 'f')
 
         def increase_var_value():
             for _ in range(1000):
@@ -82,27 +82,27 @@ class TestLiveTune(unittest.TestCase):
     def test_invalid_var_value_type(self):
         # Test invalid type for var_value
         with self.assertRaises(TypeError):
-            _ = initVar("invalid_value", "g")
+            _ = liveVar("invalid_value", "g")
 
     def test_invalid_tag_type(self):
         # Test invalid type for tag
         with self.assertRaises(TypeError):
-            _ = initVar(10, 3)
+            _ = liveVar(10, 3)
 
     def test_string_representation(self):
-        var = initVar(42, "h") 
+        var = liveVar(42, "h") 
         self.assertEqual(str(var), "42")
 
     def test_inequality_operators(self):
-        var1 = initVar(10, "i")
-        var2 = initVar(20, "j")
-        var3 = initVar(10, "k")
+        var1 = liveVar(10, "i")
+        var2 = liveVar(20, "j")
+        var3 = liveVar(10, "k")
 
         self.assertTrue(var1 == var3)
         self.assertTrue(var1 != var2)
 
     def test_inplace_arithmetic_operations(self):
-        var = initVar(5, "l")
+        var = liveVar(5, "l")
         var += 3
         self.assertEqual(var.var_value, 8, "Inplace addition test failed")
 
@@ -116,7 +116,7 @@ class TestLiveTune(unittest.TestCase):
         self.assertEqual(var.var_value, 10, "Inplace division test failed")
 
     def test_invalid_operations(self):
-        var = initVar(10, "m")
+        var = liveVar(10, "m")
 
         # Test invalid operation with None
         with self.assertRaises(TypeError):
@@ -132,15 +132,15 @@ class TestLiveTune(unittest.TestCase):
 
     def test_edge_cases(self):
         # Test large var_value
-        var = initVar(2 ** 32, "n")
+        var = liveVar(2 ** 32, "n")
         self.assertEqual(var.var_value, 2 ** 32)
 
     def test_duplicate_port_usage(self):
         # Test duplicate port usage
-        var1 = initVar(10, "o")
+        var1 = liveVar(10, "o")
         try:
             time.sleep(1)
-            var2 = initVar(20, "o")
+            var2 = liveVar(20, "o")
         except Exception as e:
             self.assertIn("Error binding to port 8014", str(e))
 
@@ -156,13 +156,13 @@ class TestLiveTune(unittest.TestCase):
         self.assertEqual(typeChecker("burger"), "string", "Expected 'string' but got something else")
 
     def test_update(self):
-        # Assuming initVar() function is already defined and var.var_value is set to 10
-        var = initVar(10, "p")
-        # Run the 'updateVar' command in the terminal
+        # Assuming liveVar() function is already defined and var.var_value is set to 10
+        var = liveVar(10, "p")
+        # Run the 'tune' command in the terminal
 
         port = var.dictionary_port[0]
         try:
-            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value 5 --tag p --port {port}'))
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --value 5 --tag p --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
@@ -172,7 +172,7 @@ class TestLiveTune(unittest.TestCase):
 
         #test negative integer
         try:
-            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value -5 --tag p --port {port}'))
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --value -5 --tag p --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
@@ -180,13 +180,13 @@ class TestLiveTune(unittest.TestCase):
         self.assertEqual(var.var_value, -5)
 
     def test_multiple_update(self):
-        # Assuming initVar() function is already defined and var.var_value is set to 10
-        var = initVar(10, "p2")
-        # Run the 'updateVar' command in the terminal
+        # Assuming liveVar() function is already defined and var.var_value is set to 10
+        var = liveVar(10, "p2")
+        # Run the 'tune' command in the terminal
 
         port = var.dictionary_port[0]
         try:
-            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value 5 --tag p2 --port {port}'))
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --value 5 --tag p2 --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
@@ -196,7 +196,7 @@ class TestLiveTune(unittest.TestCase):
 
         #test negative integer
         try:
-            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value -5 --tag p2 --port {port}'))
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --value -5 --tag p2 --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
@@ -205,12 +205,12 @@ class TestLiveTune(unittest.TestCase):
 
     # test update but with boolean
     def test_update_bool(self):
-        var = initVar(True, "q")
-        # Run the 'updateVar' command in the terminal
+        var = liveVar(True, "q")
+        # Run the 'tune' command in the terminal
 
         port = var.dictionary_port[0]
         try:
-            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value False --tag q --port {port}'))
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --value False --tag q --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
@@ -220,13 +220,13 @@ class TestLiveTune(unittest.TestCase):
 
     # test update but with float
     def test_update_float(self):
-        # Assuming initVar() function is already defined and var.var_value is set to 10
-        var = initVar(10.0, "r")
-        # Run the 'updateVar' command in the terminal
+        # Assuming liveVar() function is already defined and var.var_value is set to 10
+        var = liveVar(10.0, "r")
+        # Run the 'tune' command in the terminal
 
         port = var.dictionary_port[0]
         try:
-            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value 5.0 --tag r --port {port}'))
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --value 5.0 --tag r --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
@@ -235,11 +235,11 @@ class TestLiveTune(unittest.TestCase):
         self.assertEqual(var.var_value, 5.0)
 
     def test_trigger(self):
-        var = initTrigger("s")
+        var = liveTrigger("s")
         self.assertEqual(var(), False, "Trigger test failed")
         port = var.dictionary_port[0]
         try:
-            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --trigger --tag s --port {port}'))
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --trigger --tag s --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")

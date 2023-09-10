@@ -1,2 +1,5 @@
 .DS_Store
 src/LiveTune/__pycache__/
+test.ipynb
+test_initVar.py
+example.py

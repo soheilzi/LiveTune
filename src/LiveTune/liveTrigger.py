@@ -1,11 +1,11 @@
 import threading
 import socket
 from typing import Any
-from LiveTune.liveVar import *
+from LiveTune.LiveVariableBase import *
 
 TRIGGER = "request_type: trigger_var"
 
-class initTrigger(liveVar):
+class liveTrigger(LiveVariableBase):
     def __init__(self, tag):
         super().__init__(tag)
         self.state_is_triggered = False
@@ -18,7 +18,7 @@ class initTrigger(liveVar):
         return f"initVar({self.var_value})"
 
     def __eq__(self, other):
-        if isinstance(other, initTrigger):
+        if isinstance(other, liveTrigger):
             return self.var_value == other.var_value
         return False
 
