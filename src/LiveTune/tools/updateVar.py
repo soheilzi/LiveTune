@@ -8,19 +8,36 @@ TRIGGER = "request_type: trigger_var"
 
 from LiveTune.liveVar import Color
 
-def typeChecker(var_value):
-    if var_value is None:
+def typeChecker(s):
+    """
+    Determines the primitive type of a string.
+
+    :param s: Input string.
+    :return: String representation of the detected type.
+    """
+
+    # Try to convert to integer
+    if s is None:
         return "None"
-    elif var_value == "True" or var_value == "False":
-        return "bool"
-    elif var_value.isdigit():
+    try:
+        int(s)
         return "int"
-    elif len(var_value) == 1:
-        return "char"
-    elif var_value.replace('.', '', 1).isdigit():
+    except ValueError:
+        pass
+
+    # Try to convert to float
+    try:
+        float(s)
         return "float"
-    else:
-        return "string"
+    except ValueError:
+        pass
+
+    # Check for boolean
+    bool_values = ["true", "false", "True", "False"]
+    if s in bool_values:
+        return "bool"
+
+    return "string"
 
 def updateVar(var_value, port, trigger):
     # print("Starting...")

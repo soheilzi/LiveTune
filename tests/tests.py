@@ -6,19 +6,27 @@ import os
 
 # from LiveTune import initVar
 from LiveTune.initVar import initVar
-from LiveTune.updateVar import typeChecker
+from LiveTune.tools.updateVar import typeChecker
 from LiveTune.initTrigger import initTrigger
 
 class TestLiveTune(unittest.TestCase):
 
-    def test_initialization(self):
-        var = initVar(10, 8000)
-        self.assertEqual(var.var_value, 10, "Init test failed")
+    def test_initialization_initVar(self):
+        var = initVar(10, 'a')
+        self.assertEqual(var(), 10, "InitVar test failed")
+        self.assertEqual(var.var_value, 10, "InitVar test failed")
+        self.assertEqual(var.dtype, int, "InitVar test failed")
+        self.assertEqual(var.tag, 'a', "InitVar test failed")
+
+    def test_initialization_initTrigger(self):
+        var = initTrigger('b')
+        self.assertEqual(var.tag, 'b', "InitTrigger test failed")
+        self.assertEqual(var(), False, "InitTrigger test failed")
         
 
     def test_arithmetic_operations(self):
-        var1 = initVar(10, 8001)
-        var2 = initVar(20, 8002)
+        var1 = initVar(10, 'c')
+        var2 = initVar(20, 'd')
 
         # Test addition
         result_add = var1 + var2
@@ -38,10 +46,10 @@ class TestLiveTune(unittest.TestCase):
 
         # Test division by zero
         with self.assertRaises(ZeroDivisionError):
-            _ = var1 / initVar(0, 8003)
+            _ = var1 / initVar(0, 'z')
 
     def test_get_set_item(self):
-        var = initVar(5, 8004)
+        var = initVar(5, 'e')
         self.assertEqual(var['value'], 5)
         var['value'] = 15
         self.assertEqual(var['value'], 15)
@@ -55,7 +63,7 @@ class TestLiveTune(unittest.TestCase):
             var['invalid_key'] = 25
 
     def test_thread_safety(self):
-        var = initVar(0, 8005)
+        var = initVar(0, 'f')
 
         def increase_var_value():
             for _ in range(1000):
@@ -74,27 +82,27 @@ class TestLiveTune(unittest.TestCase):
     def test_invalid_var_value_type(self):
         # Test invalid type for var_value
         with self.assertRaises(TypeError):
-            _ = initVar("invalid_value", 8006)
+            _ = initVar("invalid_value", "g")
 
-    def test_invalid_port_type(self):
-        # Test invalid type for port
+    def test_invalid_tag_type(self):
+        # Test invalid type for tag
         with self.assertRaises(TypeError):
-            _ = initVar(10, "invalid_port")
+            _ = initVar(10, 3)
 
     def test_string_representation(self):
-        var = initVar(42, 8007) 
+        var = initVar(42, "h") 
         self.assertEqual(str(var), "42")
 
     def test_inequality_operators(self):
-        var1 = initVar(10, 8008)
-        var2 = initVar(20, 8009)
-        var3 = initVar(10, 8010)
+        var1 = initVar(10, "i")
+        var2 = initVar(20, "j")
+        var3 = initVar(10, "k")
 
         self.assertTrue(var1 == var3)
         self.assertTrue(var1 != var2)
 
     def test_inplace_arithmetic_operations(self):
-        var = initVar(5, 8011)
+        var = initVar(5, "l")
         var += 3
         self.assertEqual(var.var_value, 8, "Inplace addition test failed")
 
@@ -108,7 +116,7 @@ class TestLiveTune(unittest.TestCase):
         self.assertEqual(var.var_value, 10, "Inplace division test failed")
 
     def test_invalid_operations(self):
-        var = initVar(10, 8012)
+        var = initVar(10, "m")
 
         # Test invalid operation with None
         with self.assertRaises(TypeError):
@@ -124,46 +132,17 @@ class TestLiveTune(unittest.TestCase):
 
     def test_edge_cases(self):
         # Test large var_value
-        var = initVar(2 ** 32, 8013)
+        var = initVar(2 ** 32, "n")
         self.assertEqual(var.var_value, 2 ** 32)
 
     def test_duplicate_port_usage(self):
         # Test duplicate port usage
-        var1 = initVar(10, 8014)
-        print("Testing duplicate port usage, runtime error is expected.")
+        var1 = initVar(10, "o")
         try:
             time.sleep(1)
-            var2 = initVar(20, 8014)
+            var2 = initVar(20, "o")
         except Exception as e:
             self.assertIn("Error binding to port 8014", str(e))
-
-    def test_invalid_port_number(self):
-        # Test invalid port number
-        with self.assertRaises(ValueError):
-            _ = initVar(10, -1)
-
-    # def test_multiple_changes
-
-    # make a test case for the typeChecker in updateVar.py
-    def test_typeChecker(self):
-        # Test invalid type for var_value
-        with self.assertRaises(TypeError):
-            _ = typeChecker("invalid_value")
-
-# test this function with unit tests
-
-
-# def typeChecker(var_value):
-#     if var_value == "True" or var_value == "False":
-#         return "bool"
-#     elif var_value.isdigit():
-#         return "int"
-#     elif len(var_value) == 1:
-#         return "char"
-#     elif var_value.replace('.', '', 1).isdigit():
-#         return "float"
-#     else:
-#         return "string"
 
     def test_typeChecker(self):
         # Test invalid type for var_value
@@ -171,18 +150,19 @@ class TestLiveTune(unittest.TestCase):
         self.assertEqual(typeChecker("False"), "bool", "Expected 'bool' but got something else")
         self.assertEqual(typeChecker("1"), "int", "Expected 'int' but got something else")
         self.assertEqual(typeChecker("0"), "int", "Expected 'int' but got something else")
-        self.assertEqual(typeChecker("a"), "char", "Expected 'char' but got something else")
+        self.assertEqual(typeChecker("-1"), "int", "Expected 'int' but got something else")
         self.assertEqual(typeChecker("1.0"), "float", "Expected 'float' but got something else")
         self.assertEqual(typeChecker("0.0"), "float", "Expected 'float' but got something else")
-        self.assertEqual(typeChecker("a"), "char", "Expected 'char' but got something else")
         self.assertEqual(typeChecker("burger"), "string", "Expected 'string' but got something else")
 
     def test_update(self):
         # Assuming initVar() function is already defined and var.var_value is set to 10
-        var = initVar(10, 8015)
+        var = initVar(10, "p")
         # Run the 'updateVar' command in the terminal
+
+        port = var.dictionary_port[0]
         try:
-            print(os.system('python3 src/LiveTune/updateVar.py -v 5 -p 8015'))
+            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value 5 --tag p --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
@@ -190,25 +170,82 @@ class TestLiveTune(unittest.TestCase):
         # Now check if var.var_value has been updated to 5
         self.assertEqual(var.var_value, 5)
 
-    def test_trigger(self):
-        bool = initTrigger(8016)
-        testSuccess = True
-        testComplete = False
-
-        while(testSuccess == False and testComplete == False):
-            if bool == True:
-                testSuccess = False
-
-        # Run the 'triggerVar' command in the terminal
+        #test negative integer
         try:
-            print(os.system('python3 src/LiveTune/triggerVar.py -p 8016'))
+            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value -5 --tag p --port {port}'))
+            time.sleep(1)
+        except Exception as e:
+            self.fail(f"Command execution failed with error: {e}")
+
+        self.assertEqual(var.var_value, -5)
+
+    def test_multiple_update(self):
+        # Assuming initVar() function is already defined and var.var_value is set to 10
+        var = initVar(10, "p2")
+        # Run the 'updateVar' command in the terminal
+
+        port = var.dictionary_port[0]
+        try:
+            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value 5 --tag p2 --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
         
-        # Now check if the trigger was made successfully and end loop
-        testComplete = True
-        self.assertEqual(testSuccess, True)
+        # Now check if var.var_value has been updated to 5
+        self.assertEqual(var.var_value, 5)
+
+        #test negative integer
+        try:
+            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value -5 --tag p2 --port {port}'))
+            time.sleep(1)
+        except Exception as e:
+            self.fail(f"Command execution failed with error: {e}")
+
+        self.assertEqual(var.var_value, -5)
+
+    # test update but with boolean
+    def test_update_bool(self):
+        var = initVar(True, "q")
+        # Run the 'updateVar' command in the terminal
+
+        port = var.dictionary_port[0]
+        try:
+            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value False --tag q --port {port}'))
+            time.sleep(1)
+        except Exception as e:
+            self.fail(f"Command execution failed with error: {e}")
+        
+        # Now check if var.var_value has been updated to 5
+        self.assertEqual(var.var_value, False, "Expected 'False' but got something else")
+
+    # test update but with float
+    def test_update_float(self):
+        # Assuming initVar() function is already defined and var.var_value is set to 10
+        var = initVar(10.0, "r")
+        # Run the 'updateVar' command in the terminal
+
+        port = var.dictionary_port[0]
+        try:
+            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --value 5.0 --tag r --port {port}'))
+            time.sleep(1)
+        except Exception as e:
+            self.fail(f"Command execution failed with error: {e}")
+        
+        # Now check if var.var_value has been updated to 5
+        self.assertEqual(var.var_value, 5.0)
+
+    def test_trigger(self):
+        var = initTrigger("s")
+        self.assertEqual(var(), False, "Trigger test failed")
+        port = var.dictionary_port[0]
+        try:
+            print(os.system(f'python3 src/LiveTune/tools/updateVar.py --trigger --tag s --port {port}'))
+            time.sleep(1)
+        except Exception as e:
+            self.fail(f"Command execution failed with error: {e}")
+        self.assertEqual(var(), True, "Trigger test failed")
+        self.assertEqual(var(), False, "Trigger test failed")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -15,6 +15,8 @@ class liveVar:
     dictionary_port = []
 
     def __init__(self, tag: str):
+        if not isinstance(tag, str):
+            raise TypeError("Tag must be a string.")
 
         if self.dictionary_port == []:
             sock = socket.socket()
@@ -94,8 +96,7 @@ class liveVar:
         if REQTYPE in message:
             tag = message[33:] # substring from 33 till end to get tag
             connection.send(self._find_port(tag).encode())
-        else:
-            connection.close()
+        connection.close()
 
 
     def startListener_dictionary_port(self):

@@ -37,17 +37,17 @@ class initTrigger(liveVar):
             connection.close()
             return
         
-        while True:
-            data = connection.recv(1024).decode()
-            if not data:
-                break
+        data = connection.recv(1024).decode()
+        if not data:
+            connection.close()
+            return
 
-            if data == TRIGGER:
-                try:
-                    with self.lock:
-                        self.state_is_triggered = True
-                    print(f"{Color.BLUE}[LOG]{Color.END} {Color.GREEN}Successfully triggered {self.tag}.{Color.END}")
-                except:
-                    print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Failed to trigger {self.tag}.{Color.END}")
+        if data == TRIGGER:
+            try:
+                with self.lock:
+                    self.state_is_triggered = True
+                print(f"{Color.BLUE}[LOG]{Color.END} {Color.GREEN}Successfully triggered {self.tag}.{Color.END}")
+            except:
+                print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Failed to trigger {self.tag}.{Color.END}")
 
         connection.close()

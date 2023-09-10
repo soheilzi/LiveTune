@@ -137,17 +137,26 @@ class initVar(liveVar):
             connection.close()
             return
 
-        while True:
-            data = connection.recv(1024).decode()
-            if not data:
-                break
+        
+        data = connection.recv(1024).decode()
+        if not data:
+            connection.close()
+            return
 
-            with self.lock:
-                try:
+        with self.lock:
+            try:
+                if self.dtype == bool:
+                    if data == "True":
+                        self.var_value = True
+                    elif data == "False":
+                        self.var_value = False
+                    else:
+                        raise ValueError("Invalid value for boolean.")
+                else:
                     self.var_value = self.dtype(data)
-                    print(f"{Color.BLUE}[LOG]{Color.END} {Color.GREEN}Successfully changed variable {self.tag}.{Color.END}")
-                except:
-                    print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Failed to change variable {self.tag}.{Color.END}")
-                    pass
+                print(f"{Color.BLUE}[LOG]{Color.END} {Color.GREEN}Successfully changed variable {self.tag}.{Color.END}")
+            except:
+                print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Failed to change variable {self.tag}.{Color.END}")
+                pass
 
         connection.close()
