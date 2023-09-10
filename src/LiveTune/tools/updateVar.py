@@ -6,8 +6,12 @@ import socket
 REQTYPE = "request_type: update_var"
 TRIGGER = "request_type: trigger_var"
 
+from LiveTune.liveVar import Color
+
 def typeChecker(var_value):
-    if var_value == "True" or var_value == "False":
+    if var_value is None:
+        return "None"
+    elif var_value == "True" or var_value == "False":
         return "bool"
     elif var_value.isdigit():
         return "int"
@@ -32,26 +36,25 @@ def updateVar(var_value, port, trigger):
 
     if trigger and (response == "trigger"):
         client_socket.send(TRIGGER.encode())  # Send request type to the server
-    elif response == typeChecker(var_value): # Check if var matches the response type
+    elif (response == typeChecker(var_value)) and var_value is not None: # Check if var matches the response type
         data = var_value
         client_socket.send(data.encode())
-        # print("Sent data")
+    else:
+        print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Variable type mismatch. Expected {response}, got {typeChecker(var_value)}{Color.END}")
 
     # print("Closing connection")
     
     client_socket.close()
 
-def request_port(tag, port):
+def request_port(tag: str, port: int):
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    client_socket.connect(('localhost', port))
-
-    client_socket.send(f"request_type: dictionary_entry - {tag}".encode())
-    print(f"Sent request for port of tag '{tag}'")
-    response = client_socket.recv(1024).decode()
-    print(f"Received port {response} for tag '{tag}'")
-
-    client_socket.close()
+    try:
+        client_socket.connect(('localhost', port))
+        client_socket.send(f"request_type: dictionary_entry - {tag}".encode())
+        response = client_socket.recv(1024).decode()
+    finally:
+        client_socket.close()
 
     return int(response)
 
@@ -61,8 +64,8 @@ def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--value", "-v", type=str, help="Value of the variable")
-    parser.add_argument("--port", "-p", type=int, help="Port number")
-    parser.add_argument("--tag", "-t", type=str, help="Tag of the variable")
+    parser.add_argument("--port", "-p", type=int, help="Port number", required=True)
+    parser.add_argument("--tag", "-t", type=str, help="Tag of the variable", required=True)
     parser.add_argument("--trigger", "-tr", action="store_true", help="Trigger the variable")
 
     args = parser.parse_args()

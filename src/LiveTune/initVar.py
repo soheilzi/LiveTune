@@ -1,17 +1,17 @@
 import threading
 import socket
 from typing import Any
-from LiveTune.liveVar import liveVar
+from LiveTune.liveVar import *
 
 class initVar(liveVar):
     def __init__(self, initial_value, tag):
         super().__init__(tag)
-        if not isinstance(initial_value, (int, float)):
-            raise TypeError("Initial value must be a number (int or float).")
+        if not isinstance(initial_value, (int, float, bool)):
+            raise TypeError("Initial value must be a number or boolean.")
 
         self.var_value = initial_value
         self.dtype = type(initial_value)
-        
+
         self.enable()
 
     def __str__(self):
@@ -84,7 +84,7 @@ class initVar(liveVar):
         elif isinstance(other, int):
             with self.lock:
                 self.var_value *= other
-            return self
+            return self 
         raise TypeError("Unsupported operand type for *=: 'initVar' and '{}'".format(type(other).__name__))
 
     def __itruediv__(self, other):
@@ -143,6 +143,11 @@ class initVar(liveVar):
                 break
 
             with self.lock:
-                self.var_value = self.dtype(data)
+                try:
+                    self.var_value = self.dtype(data)
+                    print(f"{Color.BLUE}[LOG]{Color.END} {Color.GREEN}Successfully changed variable {self.tag}.{Color.END}")
+                except:
+                    print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Failed to change variable {self.tag}.{Color.END}")
+                    pass
 
         connection.close()

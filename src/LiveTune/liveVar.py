@@ -2,26 +2,40 @@ import threading
 import socket
 from typing import Any
 
+class Color:
+    GREEN = '\033[92m'
+    BLUE = '\033[94m'
+    RED = '\033[91m'
+    YELLOW = '\033[93m'
+    END = '\033[0m'
+
 class liveVar:
     instances = []
     update_thread = None
     dictionary_port = []
 
-    def __init__(self, tag):
+    def __init__(self, tag: str):
+
         if self.dictionary_port == []:
             sock = socket.socket()
-            sock.bind(('', 0))
-            self.dictionary_port.append(sock.getsockname()[1])
-            print("Port number for initVar dictionary: {}".format(self.dictionary_port[0]))
+            try:
+                sock.bind(('', 0))
+                self.dictionary_port.append(sock.getsockname()[1])
+                print("Port number for initVar dictionary: {}".format(self.dictionary_port[0]))
+                self.enable_dictionary_port()
+            finally:
+                sock.close()
 
         sock = socket.socket()
-        sock.bind(('', 0))
-        self.port = sock.getsockname()[1]
-        
+        try:
+            sock.bind(('', 0))
+            self.port = sock.getsockname()[1]
+        finally:
+            sock.close()
+
         self.tag = tag
         self.lock = threading.Lock()
         self.instances.append(self)
-        self.enable_dictionary_port()
 
     def __str__(self):
         raise NotImplementedError
@@ -76,14 +90,11 @@ class liveVar:
 
     def handleClient_dictionary_port(self, connection):
         REQTYPE = "request_type: dictionary_entry - " # the send format is "request_type: dictionary_entry - <tag>"
-        print("Handling client dictionary port")
         message = connection.recv(1024).decode()
         if REQTYPE in message:
-            print("Received request for port:", message)
             tag = message[33:] # substring from 33 till end to get tag
             connection.send(self._find_port(tag).encode())
         else:
-            print("Closing connection")
             connection.close()
 
 
@@ -91,14 +102,12 @@ class liveVar:
         listenerSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             listenerSocket.bind(('localhost', self.dictionary_port[0]))
-            print("before listen")
             listenerSocket.listen(1)
 
             # Debug print statement for listening
             # print(f"Listening for client connections on port {self.dictionary_port[0]}...")
 
             while True:
-                print("before accept")
                 connection, address = listenerSocket.accept()
 
                 client_thread = threading.Thread(target=self.handleClient_dictionary_port, args=(connection,))
@@ -111,9 +120,6 @@ class liveVar:
         try:
             listenerSocket.bind(('localhost', self.port))
             listenerSocket.listen(1)
-
-            # Debug print statement for listening
-            # print(f"Listening for client connections on port {self.port}...")
 
             while True:
                 connection, address = listenerSocket.accept()

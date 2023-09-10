@@ -20,7 +20,7 @@ setup(
     url="https://github.com/soheilzi/LiveTune",
     entry_points={
         'console_scripts': [
-            'updateVar=LiveTune.updateVar:main',
+            'updateVar=LiveTune.tools.updateVar:main',
         ],
     },
 )

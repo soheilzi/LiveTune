@@ -1,12 +1,11 @@
 import threading
 import socket
 from typing import Any
-from LiveTune.liveVar import liveVar
+from LiveTune.liveVar import *
 
 TRIGGER = "request_type: trigger_var"
 
 class initTrigger(liveVar):
-
     def __init__(self, tag):
         super().__init__(tag)
         self.state_is_triggered = False
@@ -44,7 +43,11 @@ class initTrigger(liveVar):
                 break
 
             if data == TRIGGER:
-                with self.lock:
-                    self.state_is_triggered = True
+                try:
+                    with self.lock:
+                        self.state_is_triggered = True
+                    print(f"{Color.BLUE}[LOG]{Color.END} {Color.GREEN}Successfully triggered {self.tag}.{Color.END}")
+                except:
+                    print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Failed to trigger {self.tag}.{Color.END}")
 
         connection.close()
