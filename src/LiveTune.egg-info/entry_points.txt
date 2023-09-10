@@ -1,2 +1,2 @@
 [console_scripts]
-updateVar = LiveTune.tools.tune:main
+tune = LiveTune.tools.tune:main
