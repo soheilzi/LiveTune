@@ -17,6 +17,10 @@ class LiveVariableBase:
     def __init__(self, tag: str):
         if not isinstance(tag, str):
             raise TypeError("Tag must be a string.")
+        
+        for instance in self.instances:
+            if instance.tag == tag:
+                raise Warning(f"{Color.RED}[WARN]{Color.END} {Color.YELLOW}{tag} already exists. Reusing tag names may have unintended consequences.{Color.END}")
 
         if self.dictionary_port == []:
             sock = socket.socket()
@@ -67,12 +71,8 @@ class LiveVariableBase:
         raise NotImplementedError
     def __setitem__(self, key, value):
         raise NotImplementedError
-
     def __call__(self, *args: Any, **kwds: Any) -> Any:
         raise NotImplementedError
-
-
-
     def handleClient(self, connection):
         raise NotImplementedError
 

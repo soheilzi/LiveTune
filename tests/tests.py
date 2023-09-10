@@ -135,15 +135,6 @@ class TestLiveTune(unittest.TestCase):
         var = liveVar(2 ** 32, "n")
         self.assertEqual(var.var_value, 2 ** 32)
 
-    def test_duplicate_port_usage(self):
-        # Test duplicate port usage
-        var1 = liveVar(10, "o")
-        try:
-            time.sleep(1)
-            var2 = liveVar(20, "o")
-        except Exception as e:
-            self.assertIn("Error binding to port 8014", str(e))
-
     def test_typeChecker(self):
         # Test invalid type for var_value
         self.assertEqual(typeChecker("True"), "bool", "Expected 'bool' but got something else")
@@ -234,12 +225,23 @@ class TestLiveTune(unittest.TestCase):
         # Now check if var.var_value has been updated to 5
         self.assertEqual(var.var_value, 5.0)
 
+
+    # write a test where if the same tag name is used, make sure the console gives a warning
+    def test_duplicate_tag(self):
+        var = liveVar(10, "s")
+        try:
+            time.sleep(1)
+            var2 = liveVar(20, "s")
+        except Exception as e:
+            self.assertIn("[WARN]", str(e))
+    
+
     def test_trigger(self):
-        var = liveTrigger("s")
+        var = liveTrigger("t")
         self.assertEqual(var(), False, "Trigger test failed")
         port = var.dictionary_port[0]
         try:
-            print(os.system(f'python3 src/LiveTune/tools/tune.py --trigger --tag s --port {port}'))
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --trigger --tag t --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
