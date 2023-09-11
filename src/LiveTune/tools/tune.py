@@ -39,11 +39,13 @@ def typeChecker(s):
 
     return "string"
 
-def tune(var_value, port, trigger):
+def tune(var_value, port, tag, trigger):
     # print("Starting...")
+    variable_port = request_port(tag, port)
+
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    client_socket.connect(('localhost', port))
+    client_socket.connect(('localhost', variable_port))
     # print("Connected to server")
 
     client_socket.send(REQTYPE.encode())  # Send request type to the server
@@ -88,8 +90,8 @@ def main():
     args = parser.parse_args()
 
     # Call the tune function with the provided arguments
-    variable_port = request_port(args.tag, args.port)
-    tune(args.value, variable_port, args.trigger)
+    # variable_port = request_port(args.tag, args.port)
+    tune(args.value, args.port, args.tag,args.trigger)
 
 if __name__ == '__main__':
     main()
