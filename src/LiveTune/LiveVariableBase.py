@@ -78,6 +78,7 @@ class LiveVariableBase:
 
     def enable(self):
         listenerThread = threading.Thread(target=self.startListener)
+        listenerThread.daemon = True
         listenerThread.start()
 
     def _find_port(self, tag):
@@ -88,6 +89,7 @@ class LiveVariableBase:
 
     def enable_dictionary_port(self):
         listenerThread = threading.Thread(target=self.startListener_dictionary_port)
+        listenerThread.daemon = True
         listenerThread.start()
 
     def handleClient_dictionary_port(self, connection):
@@ -112,6 +114,7 @@ class LiveVariableBase:
                 connection, address = listenerSocket.accept()
 
                 client_thread = threading.Thread(target=self.handleClient_dictionary_port, args=(connection,))
+                client_thread.daemon = True
                 client_thread.start()
         finally:
             listenerSocket.close()
@@ -126,6 +129,7 @@ class LiveVariableBase:
                 connection, address = listenerSocket.accept()
 
                 client_thread = threading.Thread(target=self.handleClient, args=(connection,))
+                client_thread.daemon = True
                 client_thread.start()
         finally:
             listenerSocket.close()
