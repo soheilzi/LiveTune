@@ -130,12 +130,4 @@ If all tests pass, LiveTune is working correctly. If contributing, please run al
 ## Thank you for using LiveTune!
 We're still testing, so please fill out the following feedback form if you find any bugs or have feature requests: [MISSING LINK]
 
-We hope this package will help innovate and streamline your ML trainings! If you find this useful in other cases, please let us know as well.
-
-✋
-
-|
-
-|
-
-🎤 (mic drop)
+Thank you for using LiveTune! If it's been beneficial to your work, please consider citing our package in your publications. Your support helps us continue our efforts and assists others in discovering LiveTune. We appreciate your acknowledgment.
