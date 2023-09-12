@@ -144,6 +144,8 @@ We're still testing, so please fill out the following feedback form if you find 
 
 We hope this package will help innovate and streamline your ML trainings! If you find this useful in other cases, please let us know as well.
 
+✋
+
 |
 
 |
