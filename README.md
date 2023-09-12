@@ -72,9 +72,8 @@ stopLoop = liveTrigger('stop')
 ```
 
 ## Updating a LiveTune Variable
-The unique advantage of using LiveTune for variables is the ability to adjust the variables in the middle of the program with ease.
 
-When you start your program, LiveTune will assign your instance to a port on the machine. This port is where tags are temporarily associated with ports on the client.
+Upon program initiation, LiveTune assigns a port to your instance. This port links tags to client ports temporarily.
 ```bash
 Port number for liveVar dictionary: 63573
 ```
