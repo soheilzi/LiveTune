@@ -1,5 +1,5 @@
 # LiveTune 🎶
-LiveTune is a Python package designed to allow for parameter adjustment while a program is actively running. This allows ML developers and researchers to change certain variables, data, or the learning rate while their code is executing to make the task of training an ML project easier. This package allows you to tune the parameters while your code is live from outside the program.
+LiveTune is a Python package designed to allow for parameter adjustment while a program is actively running. This allows ML developers and researchers to change certain variables, data, or the hyperparameters such as learning rate and regularizer while their code is executing to make the task of training an ML project easier. This package allows you to tune the parameters while your code is live from outside the program.
 
 # Installation
 
@@ -27,8 +27,8 @@ When an instance of a program using LiveTune is started, LiveTune will report th
 
 | Feature |  Type  | Function | Usage
 |:-----|:--------:|:--------:|:--------:|
-| Live Variable   | int, char, string, float, boolean | A variale that can be modified at anytime. | Adjust learning rates, data sets, parameters, user information, etc.
-| Live Trigger   |  boolean | A boolean that is always false unless triggered by another program or terminal. | Trigger a function, loop, or stop code remotely.
+| Live Variable   | int, char, string, float, boolean | A variale that can be modified at runtime. | Adjust hyper parameters, data sets, parameters, user information, etc.
+| Live Trigger   |  boolean | A boolean that is always false. When triggered, stays true for one call. | Trigger a function, loop, or stop code remotely.
 
 
 # How to Use
