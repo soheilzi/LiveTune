@@ -4,7 +4,7 @@ setup(
     name="LiveTune",
     version="0.0.3",
     author="Soheil Zibakhsh Shabgahi, Aiden Tabrizi",
-    author_email="szibakhshshabgahi@ucsd.edu, taiden@ucsd.edu",
+    author_email="szibakhshshabgahi@ucsd.edu, atabrizi@ucsd.edu",
     description="Python package for ML developers and researchers to change certain variables while their code is executing to make the task of training a ML project easier. This package will allow you to tune some parameters while your code is live from outside of the program.",
     long_description=open("README.md", "r").read(),
     long_description_content_type="text/markdown",
