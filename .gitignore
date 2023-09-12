@@ -6,3 +6,4 @@ test_initVar.py
 example.py
 dist/
 build/
+src/LiveTune.egg-info/
