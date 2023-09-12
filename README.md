@@ -20,29 +20,21 @@ LiveTune is a cutting-edge Python package that empowers Machine Learning develop
 pip install -i https://test.pypi.org/simple/ LiveTune==0.0.3
 ```
 
-# Features
-There are two primary features available in LiveTune. Live Variables and Live Triggers. Both of which are identified using the **tag system**.
+## Key Features
 
-Every live variable and live trigger must specify a value and a string: the tag associated with it. The tag is how LiveTune can identify which variable a developer is attempting to change.
+LiveTune offers two primary features: **Live Variables** and **Live Triggers**. Both are managed using our intuitive **tag system**.
 
-When an instance of a program using LiveTune is started, LiveTune will report the instance's port number associated with the program in the terminal.
+Upon starting a program that integrates LiveTune, the terminal will display the port number associated with that program instance.
 
-| Feature |  Type  | Function | Usage
-|:-----|:--------:|:--------:|:--------:|
-| Live Variable   | int, char, string, float, boolean | A variable that can be modified at runtime. | Adjust hyper parameters, data sets, parameters, user information, etc.
-| Live Trigger   |  boolean | A boolean that is always false. When triggered, stays true for one call. | Trigger a function, loop, or stop code remotely.
+| Feature | Data Types | Description | Use Cases |
+|:-------|:----------:|:-----------:|:---------:|
+| Live Variable | int, char, string, float, boolean | Modifiable variables during runtime. | Hyperparameters, datasets, user info adjustments, etc. |
+| Live Trigger | boolean | A boolean that, when triggered, returns true for a single call. | Remotely initiate functions, loops, or halt code. |
 
 
-# How to Use
-Implementing LiveTune in your codebase could not be easier.
+## Integration Guide
 
-First install the package via the following command:
-
-```bash
-pip install -i https://test.pypi.org/simple/ LiveTune==0.0.3
-```
-
-## Setting up Live Variables 
+### Setting up Live Variables 
 A live variable is an integer, char, string, float, or boolean that is able to be changed in the middle of the program by using a command in the terminal or in a different program.
 
 First, import liveVar from LiveTune:
@@ -63,7 +55,7 @@ ranking = liveVar(100, 'ranking')
 
 Live Variables can be used just like normal variables of its type, so feel free to call the variable as needed. 
 
-**Note:** If a variable is created *based* off of a Live Variable, it will not adjust if the Live Variable is updated. For example, if the variable ranking2 = ranking + 5, updating the value of ranking will *not* update the value of ranking2.
+**Note:** Derived variables from a Live Variable won't auto-update. For instance, if ranking2 = ranking + 5, modifying ranking won't affect ranking2.
 
 ## Setting up Live Triggers
 A live trigger is a boolean that will always return *False* when called. If a developer "triggers" it, the boolean will return *True* the next time it is called. 
@@ -71,11 +63,6 @@ A live trigger is a boolean that will always return *False* when called. If a de
 First, import liveVar from LiveTune:
 ```python
 from LiveTune import liveTrigger
-```
-
-To create a Live Trigger, create a new variable in the liveTrigger class.
-
-```python
 myTrigger = liveTrigger('TAG')
 ```
 
