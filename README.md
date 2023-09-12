@@ -27,7 +27,7 @@ When an instance of a program using LiveTune is started, LiveTune will report th
 
 | Feature |  Type  | Function | Usage
 |:-----|:--------:|:--------:|:--------:|
-| Live Variable   | int, char, string, float, boolean | A variale that can be modified at runtime. | Adjust hyper parameters, data sets, parameters, user information, etc.
+| Live Variable   | int, char, string, float, boolean | A variable that can be modified at runtime. | Adjust hyper parameters, data sets, parameters, user information, etc.
 | Live Trigger   |  boolean | A boolean that is always false. When triggered, stays true for one call. | Trigger a function, loop, or stop code remotely.
 
 
