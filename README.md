@@ -128,6 +128,6 @@ If all tests pass, LiveTune is working correctly. If contributing, please run al
 
 
 ## Thank you for using LiveTune!
-We're still testing, so please fill out the following feedback form if you find any bugs or have feature requests: [MISSING LINK]
+We're still early in testing, so please [fill out the feedback form if you find any bugs or have feature requests.](https://docs.google.com/forms/d/e/1FAIpQLSfHbM8Jy8w8EDZu_mEV0pH2qtqn3jplsB45KlmVsj6LORrBQQ/viewform?usp=sf_link)
 
 Thank you for using LiveTune! If it's been beneficial to your work, please consider citing our package in your publications. Your support helps us continue our efforts and assists others in discovering LiveTune. We appreciate your acknowledgment.
