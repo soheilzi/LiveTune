@@ -1,22 +1,24 @@
-# LiveTune 🎶
-LiveTune is a Python package designed to allow for parameter adjustment while a program is actively running. This allows ML developers and researchers to change certain variables, data, or the hyperparameters such as learning rate and regularizer while their code is executing to make the task of training an ML project easier. This package allows you to tune the parameters while your code is live from outside the program.
+# LiveTune: Dynamic Parameter Tuning 🎶
 
-# Installation
+LiveTune is a cutting-edge Python package that empowers Machine Learning developers and researchers to adjust parameters in real-time while their program is running. Seamlessly modify variables, data, or hyperparameters, such as learning rate and regularizer, without interrupting your code execution. Experience the freedom to fine-tune your ML projects on-the-fly.
 
-### Platform Support
-| Platform | Support |
-|:-----|:--------:|
+## Installation
+
+### Platform Compatibility
+
+| Platform | Status |
+|:--------|:------:|
 | MacOS 🍎 | Supported |
 | Linux 🐧 | Supported |
-| Windows 🪟 | Untested |
+| Windows 🪟 | Not Yet Tested |
 
-### How to Install
+### Installation Guide
 
-To install, open terminal and run the following PyPi command:
+1. Ensure you have PyPi installed. If not, [follow these instructions](https://packaging.python.org/en/latest/tutorials/installing-packages/).
+2. Execute the following command in your terminal:
 ```bash
 pip install -i https://test.pypi.org/simple/ LiveTune==0.0.3
 ```
-If PyPi is not installed, please [follow these instructions.](https://packaging.python.org/en/latest/tutorials/installing-packages/)
 
 # Features
 There are two primary features available in LiveTune. Live Variables and Live Triggers. Both of which are identified using the **tag system**.
