@@ -56,7 +56,7 @@ myVariable = liveVar(INITIAL_VALUE, 'TAG')
 
 Example usage:
 ```python
-ranking = liveVar(100), 'ranking')
+ranking = liveVar(100, 'ranking')
 ```
 
 Live Variables can be used just like normal variables of its type, so feel free to call the variable as needed. 
