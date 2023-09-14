@@ -27,7 +27,7 @@ class LiveVariableBase:
             try:
                 sock.bind(('', 0))
                 self.dictionary_port.append(sock.getsockname()[1])
-                print("Port number for liveVar dictionary: {}".format(self.dictionary_port[0]))
+                print(f"{Color.BLUE}[LiveTune] {Color.GREEN}Port number for the LiveTune dictionary: {self.dictionary_port[0]}")
                 self.enable_dictionary_port()
             finally:
                 sock.close()
