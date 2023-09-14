@@ -75,7 +75,7 @@ stopLoop = liveTrigger('stop')
 
 Upon program initiation, LiveTune assigns a port to your instance. This port links tags to client ports temporarily.
 ```bash
-Port number for liveVar dictionary: 63573
+[LiveTune] Port number for the LiveTune dictionary: 61629
 ```
 
 To update a variable, use the **tune** command in the terminal or in an external program.
