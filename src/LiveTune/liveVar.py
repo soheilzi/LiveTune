@@ -11,7 +11,7 @@ class liveVar(LiveVariableBase):
 
         self.var_value = initial_value
         self.dtype = type(initial_value)
-
+        self.has_changed = False
         self.enable()
 
     def __str__(self):
@@ -124,9 +124,19 @@ class liveVar(LiveVariableBase):
         raise KeyError("Invalid key '{}' for __setitem__".format(key))
 
     def __call__(self, *args: Any, **kwds: Any) -> Any:
+        
+        # do we want to reset the has_changed flag here?
+
+        # if self.has_changed:
+            # self.has_changed = False
         return self.var_value
-
-
+    
+    def changed(self): # check if the variable has changed since last call
+        if self.has_changed:
+            self.has_changed = False
+            return True
+        else:
+            return False
 
     def handleClient(self, connection):
         REQTYPE = "request_type: update_var"
@@ -148,13 +158,19 @@ class liveVar(LiveVariableBase):
                 if self.dtype == bool:
                     if data == "True":
                         self.var_value = True
+                        self.has_changed = True
+                        print(f"{Color.BLUE}[LOG]{Color.END} {Color.GREEN}Successfully changed variable {self.tag}.{Color.END}")
                     elif data == "False":
                         self.var_value = False
+                        self.has_changed = True
+                        print(f"{Color.BLUE}[LOG]{Color.END} {Color.GREEN}Successfully changed variable {self.tag}.{Color.END}")
                     else:
-                        raise ValueError("Invalid value for boolean.")
+                        print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Invalid value for boolean {self.tag}.{Color.END}")
+                        pass
                 else:
                     self.var_value = self.dtype(data)
-                print(f"{Color.BLUE}[LOG]{Color.END} {Color.GREEN}Successfully changed variable {self.tag}.{Color.END}")
+                    self.has_changed = True
+                    print(f"{Color.BLUE}[LOG]{Color.END} {Color.GREEN}Successfully changed variable {self.tag}.{Color.END}")
             except:
                 print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Failed to change variable {self.tag}.{Color.END}")
                 pass

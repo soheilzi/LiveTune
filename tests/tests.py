@@ -248,6 +248,18 @@ class TestLiveTune(unittest.TestCase):
         self.assertEqual(var(), True, "Trigger test failed")
         self.assertEqual(var(), False, "Trigger test failed")
 
+    def test_changed(self):
+        var = liveVar(10, "u")
+        self.assertEqual(var.changed(), False, "changed test failed")
+        port = var.dictionary_port[0]
+        try:
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --value 5 --tag u --port {port}'))
+            time.sleep(1)
+        except Exception as e:
+            self.fail(f"Command execution failed with error: {e}")
+        self.assertEqual(var.changed(), True, "failed to detect change")
+        self.assertEqual(var.changed(), False, "failed to reset has_changed")
+
 
 if __name__ == '__main__':
     unittest.main()
