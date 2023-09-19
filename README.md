@@ -55,7 +55,7 @@ ranking = liveVar(100, 'ranking')
 
 Live Variables can be used just like normal variables of its type, so feel free to call the variable as needed. 
 
-To avoid resource loss or unnecessary recompiling, liveVar includes a 'changed' method that returns True or False if the Live Variable has been changed since the last time 'changed' was called in a running instance. 
+To avoid resource loss or unnecessary recompiling, liveVar includes a **'changed' method** that returns True or False if the Live Variable has been changed since the last time 'changed' was called in a running instance. 
 
 Example usage:
 ```python
