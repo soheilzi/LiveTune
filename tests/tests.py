@@ -259,7 +259,18 @@ class TestLiveTune(unittest.TestCase):
             self.fail(f"Command execution failed with error: {e}")
         self.assertEqual(var.changed(), True, "failed to detect change")
         self.assertEqual(var.changed(), False, "failed to reset has_changed")
-
+    
+    def test_update(self):
+        var = liveVar(10, "v")
+        self.assertEqual(var(), 10, "update test failed")
+        var.update(5)
+        self.assertEqual(var(), 5, "update test failed")
+        with self.assertRaises(TypeError):
+            var.update("string")
+        with self.assertRaises(TypeError):
+            var.update(True)
+        with self.assertRaises(TypeError):
+            var.update(5.0)
 
 if __name__ == '__main__':
     unittest.main()

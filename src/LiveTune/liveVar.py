@@ -137,6 +137,12 @@ class liveVar(LiveVariableBase):
             return True
         else:
             return False
+        
+    def update(self, value):
+        if (type(value) != self.dtype):
+            raise TypeError("Value must be of type {}".format(self.dtype))
+        else:
+            self.var_value = value
 
     def handleClient(self, connection):
         REQTYPE = "request_type: update_var"
