@@ -25,6 +25,7 @@ class TestLiveTune(unittest.TestCase):
         
 
     def test_arithmetic_operations(self):
+        liveVar.setPort(10)
         var1 = liveVar(10, 'c')
         var2 = liveVar(20, 'd')
 
@@ -150,7 +151,6 @@ class TestLiveTune(unittest.TestCase):
         # Assuming liveVar() function is already defined and var.var_value is set to 10
         var = liveVar(10, "p")
         # Run the 'tune' command in the terminal
-
         port = var.dictionary_port[0]
         try:
             print(os.system(f'python3 src/LiveTune/tools/tune.py --value 5 --tag p --port {port}'))
@@ -216,6 +216,7 @@ class TestLiveTune(unittest.TestCase):
         # Run the 'tune' command in the terminal
 
         port = var.dictionary_port[0]
+        print(port)
         try:
             print(os.system(f'python3 src/LiveTune/tools/tune.py --value 5.0 --tag r --port {port}'))
             time.sleep(1)

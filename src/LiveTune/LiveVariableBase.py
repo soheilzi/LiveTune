@@ -13,6 +13,7 @@ class LiveVariableBase:
     instances = []
     update_thread = None
     dictionary_port = []
+    preferred_port = []
 
     def __init__(self, tag: str):
         if not isinstance(tag, str):
@@ -25,12 +26,16 @@ class LiveVariableBase:
         if self.dictionary_port == []:
             sock = socket.socket()
             try:
-                sock.bind(('', 0))
+                sock.bind(('', 0 if self.preferred_port == [] else self.preferred_port[0]))
                 self.dictionary_port.append(sock.getsockname()[1])
                 print(f"{Color.BLUE}[LiveTune] {Color.GREEN}Port number for the LiveTune dictionary: {Color.YELLOW}{self.dictionary_port[0]}")
                 self.enable_dictionary_port()
+            except:
+                print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}The preferred dictionary port is already in use elsewhere.{Color.END}")
+                raise
             finally:
                 sock.close()
+        
 
         sock = socket.socket()
         try:
@@ -81,6 +86,16 @@ class LiveVariableBase:
         listenerThread.daemon = True
         listenerThread.start()
 
+    @classmethod
+    def setPort(self, port):
+        if (isinstance(port, int) and port > 0 and port < 65535):
+            if self.dictionary_port == [] and self.preferred_port == []:
+                self.preferred_port.append(port)
+            else:
+                RuntimeError(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Port number for the LiveTune dictionary already set.{Color.END}")
+        else:
+            TypeError(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Port number must be an integer between 0 and 65535.{Color.END}")
+
     def _find_port(self, tag):
         for instance in self.instances:
             if instance.tag == tag:
@@ -116,6 +131,9 @@ class LiveVariableBase:
                 client_thread = threading.Thread(target=self.handleClient_dictionary_port, args=(connection,))
                 client_thread.daemon = True
                 client_thread.start()
+        except:
+            print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Failed to listen on port {self.dictionary_port[0]}. This is most likely because of an incorrect port.{Color.END}")
+            raise
         finally:
             listenerSocket.close()
 
