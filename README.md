@@ -118,14 +118,11 @@ tune --value 10 -t myVariable -p 13451
 tune --tag myTrigger --port 13451 -tr
 ```
 
-
-__NOTE TO SOHEIL: WE NEED TO TEST THIS:__
-
-LiveTune can also be used in your Python programs. You can import the tune tool by using:
-```bash 
-from LiveTune import tools as lt
+You can also update livetune variables using their update method.
+example:
+```python
+myVariable.update(new_value)
 ```
-You can now use *lt.tune* within your program. This can include a separately ran program that is started after the original program.
 
 ## Unit Tests
 
