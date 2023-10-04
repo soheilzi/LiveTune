@@ -72,6 +72,9 @@ def request_port(tag: str, port: int):
         client_socket.connect(('localhost', port))
         client_socket.send(f"request_type: dictionary_entry - {tag}".encode())
         response = client_socket.recv(1024).decode()
+    except:
+        print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Failed to connect to the LiveTune dictionary. This is most likely because of an incorrect port.{Color.END}")
+        raise
     finally:
         client_socket.close()
 
