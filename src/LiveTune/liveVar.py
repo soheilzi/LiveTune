@@ -5,6 +5,10 @@ from LiveTune.LiveVariableBase import *
 
 class liveVar(LiveVariableBase):
     def __init__(self, initial_value, tag):
+        """Initializes a liveVar object.
+        initial_value: The initial value of the variable.
+        tag: A unique identifier for the variable.
+        """
         super().__init__(tag)
         if not isinstance(initial_value, (int, float, bool)):
             raise TypeError("Initial value must be a number or boolean.")

@@ -25,7 +25,7 @@ class TestLiveTune(unittest.TestCase):
         
 
     def test_arithmetic_operations(self):
-        liveVar.setPort(10)
+        # liveVar.setPort(10)
         var1 = liveVar(10, 'c')
         var2 = liveVar(20, 'd')
 
