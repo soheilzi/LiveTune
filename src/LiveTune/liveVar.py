@@ -136,6 +136,7 @@ class liveVar(LiveVariableBase):
         return self.var_value
     
     def changed(self): # check if the variable has changed since last call
+        """Returns True if the variable has changed since the last call to changed()."""
         if self.has_changed:
             self.has_changed = False
             return True
@@ -143,6 +144,7 @@ class liveVar(LiveVariableBase):
             return False
         
     def update(self, value):
+        """Updates the value of the variable."""
         if (type(value) != self.dtype):
             raise TypeError("Value must be of type {}".format(self.dtype))
         else:
