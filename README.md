@@ -67,7 +67,7 @@ if myVariable.changed():
 **Note:** Derived variables from a Live Variable won't auto-update. For instance, if ranking2 = ranking + 5, modifying ranking won't affect ranking2.
 
 ## Setting up Live Triggers
-A live trigger is a boolean that will always return *False* when called. If a developer "triggers" it, the boolean will return *True* the next time it is called. 
+A live trigger is a boolean that will always return *False* when called. If a developer "triggers" it, the boolean will return *True* the next time it is called. It can be used to trigger functions, and subroutines. 
 
 First, import liveVar from LiveTune:
 ```python
@@ -78,6 +78,17 @@ myTrigger = liveTrigger('TAG')
 Example usage:
 ```python
 stopLoop = liveTrigger('stop')
+while(not stopLoop()):
+    pass
+```
+
+```python
+save = liveTrigger('save')
+
+while training:
+    if save():
+        save_subroutine()
+...
 ```
 
 ## Updating a LiveTune Variable
