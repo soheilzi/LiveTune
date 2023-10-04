@@ -5,6 +5,10 @@ from LiveTune.LiveVariableBase import *
 
 class liveVar(LiveVariableBase):
     def __init__(self, initial_value, tag):
+        """Initializes a liveVar object.
+        initial_value: The initial value of the variable.
+        tag: A unique identifier for the variable.
+        """
         super().__init__(tag)
         if not isinstance(initial_value, (int, float, bool)):
             raise TypeError("Initial value must be a number or boolean.")
@@ -132,6 +136,7 @@ class liveVar(LiveVariableBase):
         return self.var_value
     
     def changed(self): # check if the variable has changed since last call
+        """Returns True if the variable has changed since the last call to changed()."""
         if self.has_changed:
             self.has_changed = False
             return True
@@ -139,6 +144,7 @@ class liveVar(LiveVariableBase):
             return False
         
     def update(self, value):
+        """Updates the value of the variable."""
         if (type(value) != self.dtype):
             raise TypeError("Value must be of type {}".format(self.dtype))
         else:

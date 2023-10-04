@@ -7,6 +7,9 @@ TRIGGER = "request_type: trigger_var"
 
 class liveTrigger(LiveVariableBase):
     def __init__(self, tag):
+        """Initializes a liveTrigger object.
+        tag: A unique identifier for the variable.
+        """
         super().__init__(tag)
         self.state_is_triggered = False
         self.enable()
