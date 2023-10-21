@@ -124,7 +124,22 @@ example:
 myVariable.update(new_value)
 ```
 
-## Unit Tests
+
+## Contributing to LiveTune
+Those interested in adding features to the package may submit a pull request. Please keep individual improvements to their own pull requests.
+Please maintain consistent code format when contributing to ensure the package remains easily understandable for future contributors.
+
+1. Fork the project
+2. Create your feature branch `git checkout -b my-new-change`
+3. Commit your changes `git commit -am 'Added new feature'`
+4. Push to the branch `git push origin my-new-change`
+5. Run the Unit Tests specified in the section below
+6. Submit a pull request
+
+All contributors should run the Unit Tests below to test their changes.
+
+
+### Unit Tests
 
 This repository contains a **tests.py** file in the tests folder. Clone this repo by using:
 ```bash
@@ -143,6 +158,13 @@ python3 LiveTune/tests/tests.py
 
 If all tests pass, LiveTune is working correctly. If contributing, please run all tests before submitting a pull request.
 
+## Authors
+
+- Soheil Zibakhsh Shabgahi - [szibakhshshabgahi@ucsd.edu](mailto:szibakhshshabgahi@ucsd.edu)
+- Aiden Tabrizi - [atabrizi@ucsd.edu](mailto:atabrizi@ucsd.edu)
+
+### Contact
+If you are interested in using the code for commercial use, please contact [innovation@ucsd.edu](mailto:innovation@ucsd.edu)
 
 ## Thank you for using LiveTune!
 We're still early in testing, so please [fill out the feedback form if you find any bugs or have feature requests.](https://docs.google.com/forms/d/e/1FAIpQLSfHbM8Jy8w8EDZu_mEV0pH2qtqn3jplsB45KlmVsj6LORrBQQ/viewform?usp=sf_link)
