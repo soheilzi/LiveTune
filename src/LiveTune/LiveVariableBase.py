@@ -28,7 +28,7 @@ class LiveVariableBase:
             try:
                 sock.bind(('', 0 if self.preferred_port == [] else self.preferred_port[0]))
                 self.dictionary_port.append(sock.getsockname()[1])
-                print(f"{Color.BLUE}[LiveTune] {Color.GREEN}Port number for the LiveTune dictionary: {Color.YELLOW}{self.dictionary_port[0]}")
+                print(f"{Color.BLUE}[LiveTune] {Color.GREEN}Port number for the LiveTune dictionary: {Color.YELLOW}{self.dictionary_port[0]}{Color.END}")
                 self.enable_dictionary_port()
             except:
                 print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}The preferred dictionary port is already in use elsewhere.{Color.END}")
