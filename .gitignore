@@ -7,3 +7,8 @@ example.py
 dist/
 build/
 src/LiveTune.egg-info/
+
+# Ignore all .pyc files
+*.pyc
+*/__pycache__/*
+```
