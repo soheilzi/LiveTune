@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
 Name: LiveTune
-Version: 0.0.4
+Version: 0.0.7
 Summary: Python package for ML developers and researchers to change certain variables while their code is executing to make the task of training a ML project easier. This package will allow you to tune some parameters while your code is live from outside of the program.
 Home-page: https://github.com/soheilzi/LiveTune
 Author: Soheil Zibakhsh Shabgahi, Aiden Tabrizi
 Author-email: szibakhshshabgahi@ucsd.edu, atabrizi@ucsd.edu
 Classifier: Programming Language :: Python :: 3
-Classifier: License :: OSI Approved :: MIT License
+Classifier: License :: Other/Proprietary License
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.7
 Description-Content-Type: text/markdown
@@ -31,7 +31,7 @@ LiveTune is a cutting-edge Python package that empowers Machine Learning develop
 1. Ensure you have PyPi installed. If not, [follow these instructions](https://packaging.python.org/en/latest/tutorials/installing-packages/).
 2. Execute the following command in your terminal:
 ```bash
-pip install -i https://test.pypi.org/simple/ LiveTune==0.0.4
+pip install -i https://test.pypi.org/simple/ LiveTune==0.0.7
 ```
 
 ## Key Features
@@ -69,10 +69,19 @@ ranking = liveVar(100, 'ranking')
 
 Live Variables can be used just like normal variables of its type, so feel free to call the variable as needed. 
 
+To avoid resource loss or unnecessary recompiling, liveVar includes a **'changed' method** that returns True or False if the Live Variable has been changed since the last time 'changed' was called in a running instance. 
+
+Example usage:
+```python
+if myVariable.changed():
+    print("This variable has changed!")
+```
+
+
 **Note:** Derived variables from a Live Variable won't auto-update. For instance, if ranking2 = ranking + 5, modifying ranking won't affect ranking2.
 
 ## Setting up Live Triggers
-A live trigger is a boolean that will always return *False* when called. If a developer "triggers" it, the boolean will return *True* the next time it is called. 
+A live trigger is a boolean that will always return *False* when called. If a developer "triggers" it, the boolean will return *True* the next time it is called. It can be used to trigger functions, and subroutines. 
 
 First, import liveVar from LiveTune:
 ```python
@@ -83,13 +92,24 @@ myTrigger = liveTrigger('TAG')
 Example usage:
 ```python
 stopLoop = liveTrigger('stop')
+while(not stopLoop()):
+    pass
+```
+
+```python
+save = liveTrigger('save')
+
+while training:
+    if save():
+        save_subroutine()
+...
 ```
 
 ## Updating a LiveTune Variable
 
 Upon program initiation, LiveTune assigns a port to your instance. This port links tags to client ports temporarily.
 ```bash
-Port number for liveVar dictionary: 63573
+[LiveTune] Port number for the LiveTune dictionary: 61629
 ```
 
 To update a variable, use the **tune** command in the terminal or in an external program.
@@ -112,16 +132,28 @@ tune --value 10 -t myVariable -p 13451
 tune --tag myTrigger --port 13451 -tr
 ```
 
-
-__NOTE TO SOHEIL: WE NEED TO TEST THIS:__
-
-LiveTune can also be used in your Python programs. You can import the tune tool by using:
-```bash 
-from LiveTune import tools as lt
+You can also update livetune variables using their update method.
+example:
+```python
+myVariable.update(new_value)
 ```
-You can now use *lt.tune* within your program. This can include a separately ran program that is started after the original program.
 
-## Unit Tests
+
+## Contributing to LiveTune
+Those interested in adding features to the package may submit a pull request. Please keep individual improvements to their own pull requests.
+Please maintain consistent code format when contributing to ensure the package remains easily understandable for future contributors.
+
+1. Fork the project
+2. Create your feature branch `git checkout -b my-new-change`
+3. Commit your changes `git commit -am 'Added new feature'`
+4. Push to the branch `git push origin my-new-change`
+5. Run the Unit Tests specified in the section below
+6. Submit a pull request
+
+All contributors should run the Unit Tests below to test their changes.
+
+
+### Unit Tests
 
 This repository contains a **tests.py** file in the tests folder. Clone this repo by using:
 ```bash
@@ -140,6 +172,13 @@ python3 LiveTune/tests/tests.py
 
 If all tests pass, LiveTune is working correctly. If contributing, please run all tests before submitting a pull request.
 
+## Authors
+
+- Soheil Zibakhsh Shabgahi - [szibakhshshabgahi@ucsd.edu](mailto:szibakhshshabgahi@ucsd.edu)
+- Aiden Tabrizi - [atabrizi@ucsd.edu](mailto:atabrizi@ucsd.edu)
+
+### Contact
+If you are interested in using the code for commercial use, please contact [innovation@ucsd.edu](mailto:innovation@ucsd.edu)
 
 ## Thank you for using LiveTune!
 We're still early in testing, so please [fill out the feedback form if you find any bugs or have feature requests.](https://docs.google.com/forms/d/e/1FAIpQLSfHbM8Jy8w8EDZu_mEV0pH2qtqn3jplsB45KlmVsj6LORrBQQ/viewform?usp=sf_link)

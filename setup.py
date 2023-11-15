@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="LiveTune",
-    version="0.0.6",
+    version="0.0.7",
     author="Soheil Zibakhsh Shabgahi, Aiden Tabrizi",
     author_email="szibakhshshabgahi@ucsd.edu, atabrizi@ucsd.edu",
     description="Python package for ML developers and researchers to change certain variables while their code is executing to make the task of training a ML project easier. This package will allow you to tune some parameters while your code is live from outside of the program.",
@@ -14,7 +14,7 @@ setup(
     install_requires=[],
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: Custom :: University of California Research License",
+        "License :: Other/Proprietary License",
         "Operating System :: OS Independent",
     ],
     url="https://github.com/soheilzi/LiveTune",

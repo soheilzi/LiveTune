@@ -12,5 +12,4 @@ src/LiveTune.egg-info/entry_points.txt
 src/LiveTune.egg-info/top_level.txt
 src/LiveTune/tools/__init__.py
 src/LiveTune/tools/tune.py
-tests/test_initVar.py
 tests/tests.py
