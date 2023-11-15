@@ -226,23 +226,56 @@ class TestLiveTune(unittest.TestCase):
         # Now check if var.var_value has been updated to 5
         self.assertEqual(var.var_value, 5.0)
 
+    # test update but with float initialized and int given
+    def test_update_float_with_int_given(self):
+        # Assuming liveVar() function is already defined and var.var_value is set to 10
+        var = liveVar(10.0, "s")
+        # Run the 'tune' command in the terminal
+
+        port = var.dictionary_port[0]
+        print(port)
+        try:
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --value 5 --tag s --port {port}'))
+            time.sleep(1)
+        except Exception as e:
+            self.fail(f"Command execution failed with error: {e}")
+        
+        # Now check if var.var_value has been updated to 5.0
+        self.assertEqual(var.var_value, 5.0)
+
+    # test update but with int initialized and float given
+    def test_update_int_with_float_given(self):
+        # Assuming liveVar() function is already defined and var.var_value is set to 10
+        var = liveVar(10, "t")
+        # Run the 'tune' command in the terminal
+
+        port = var.dictionary_port[0]
+        print(port)
+        try:
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --value 5.0 --tag t --port {port}'))
+            time.sleep(1)
+        except Exception as e:
+            self.fail(f"Command execution failed with error: {e}")
+        
+        # Now check if var.var_value has been updated to 5.0
+        self.assertEqual(var.var_value, 5)
 
     # write a test where if the same tag name is used, make sure the console gives a warning
     def test_duplicate_tag(self):
-        var = liveVar(10, "s")
+        var = liveVar(10, "u")
         try:
             time.sleep(1)
-            var2 = liveVar(20, "s")
+            var2 = liveVar(20, "u")
         except Exception as e:
             self.assertIn("[WARN]", str(e))
     
 
     def test_trigger(self):
-        var = liveTrigger("t")
+        var = liveTrigger("v")
         self.assertEqual(var(), False, "Trigger test failed")
         port = var.dictionary_port[0]
         try:
-            print(os.system(f'python3 src/LiveTune/tools/tune.py --trigger --tag t --port {port}'))
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --trigger --tag v --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
@@ -250,11 +283,11 @@ class TestLiveTune(unittest.TestCase):
         self.assertEqual(var(), False, "Trigger test failed")
 
     def test_changed(self):
-        var = liveVar(10, "u")
+        var = liveVar(10, "w")
         self.assertEqual(var.changed(), False, "changed test failed")
         port = var.dictionary_port[0]
         try:
-            print(os.system(f'python3 src/LiveTune/tools/tune.py --value 5 --tag u --port {port}'))
+            print(os.system(f'python3 src/LiveTune/tools/tune.py --value 5 --tag w --port {port}'))
             time.sleep(1)
         except Exception as e:
             self.fail(f"Command execution failed with error: {e}")
@@ -262,7 +295,7 @@ class TestLiveTune(unittest.TestCase):
         self.assertEqual(var.changed(), False, "failed to reset has_changed")
     
     def test_update(self):
-        var = liveVar(10, "v")
+        var = liveVar(10, "x")
         self.assertEqual(var(), 10, "update test failed")
         var.update(5)
         self.assertEqual(var(), 5, "update test failed")

@@ -55,9 +55,26 @@ def tune(var_value, port, tag, trigger):
 
     if trigger and (response == "trigger"):
         client_socket.send(TRIGGER.encode())  # Send request type to the server
-    elif (response == typeChecker(var_value)) and var_value is not None: # Check if var matches the response type
-        data = var_value
-        client_socket.send(data.encode())
+    elif ((response == typeChecker(var_value)) or (response == "float") or (response == "int")) and var_value is not None: # Check if var matches the response type
+        if response == "int" and typeChecker(var_value) == "float" and float(var_value).is_integer():
+            var_value = int(float(var_value))
+            data = var_value
+            client_socket.send(str(data).encode())
+        elif response == "float" and typeChecker(var_value) == "int":
+            var_value = float(var_value)
+            data = var_value
+            client_socket.send(str(data).encode())
+        elif response == "int" and typeChecker(var_value) != "int":
+            print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Variable type mismatch. Expected {response}, got {typeChecker(var_value)}{Color.END}")
+            client_socket.close()
+            return
+        elif response == "float" and typeChecker(var_value) != "float":
+            print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Variable type mismatch. Expected {response}, got {typeChecker(var_value)}{Color.END}")
+            client_socket.close()
+            return
+        else:
+            data = var_value
+            client_socket.send(str(data).encode())
     else:
         print(f"{Color.RED}[ERROR]{Color.END} {Color.YELLOW}Variable type mismatch. Expected {response}, got {typeChecker(var_value)}{Color.END}")
 
