@@ -176,5 +176,5 @@ Thank you for using LiveTune! If it's been beneficial to your work, please consi
   journal={arXiv preprint arXiv:2311.17279},
   year={2023}
 }
-
+```
 Your support helps us continue our efforts and assists others in discovering LiveTune. We appreciate your acknowledgment.
