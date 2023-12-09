@@ -1,4 +1,4 @@
-![LiveTune(NoText)](https://github.com/soheilzi/LiveTune/assets/33820269/2581b8c6-21ce-4ace-8e82-5fab9533e29c)
+![LiveTune(GitHub)](https://github.com/soheilzi/LiveTune/assets/33820269/c7386254-70a7-445a-9a28-3585d463648b)
 ## Dynamic Parameter Tuning 🎶
 
 LiveTune is a cutting-edge Python package that empowers Machine Learning developers and researchers to adjust parameters in real-time while their program is running. Seamlessly modify variables, data, or hyperparameters, such as learning rate and regularizer, without interrupting your code execution. Experience the freedom to fine-tune your ML projects on-the-fly.
