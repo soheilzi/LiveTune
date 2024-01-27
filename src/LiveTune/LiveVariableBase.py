@@ -19,9 +19,10 @@ class LiveVariableBase:
         if not isinstance(tag, str):
             raise TypeError("Tag must be a string.")
         
-        for instance in self.instances:
-            if instance.tag == tag:
-                raise Warning(f"{Color.RED}[WARN]{Color.END} {Color.YELLOW}{tag} already exists. Reusing tag names may have unintended consequences.{Color.END}")
+##### Removed this warning to allow for multiple instances of the same tag. 
+#        for instance in self.instances:
+#            if instance.tag == tag:
+#                raise Warning(f"{Color.RED}[WARN]{Color.END} {Color.YELLOW}{tag} already exists. Reusing tag names may have unintended consequences.{Color.END}")
 
         if self.dictionary_port == []:
             sock = socket.socket()
