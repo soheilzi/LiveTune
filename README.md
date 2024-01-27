@@ -1,4 +1,5 @@
-# LiveTune: Dynamic Parameter Tuning 🎶
+![LiveTune(Github)](https://github.com/soheilzi/LiveTune/assets/33820269/e87062c0-2d1c-4b23-a3a5-6eed7d07fa18)
+## Dynamic Parameter Tuning 🎶
 
 LiveTune is a cutting-edge Python package that empowers Machine Learning developers and researchers to adjust parameters in real-time while their program is running. Seamlessly modify variables, data, or hyperparameters, such as learning rate and regularizer, without interrupting your code execution. Experience the freedom to fine-tune your ML projects on-the-fly.
 
@@ -169,4 +170,12 @@ If you are interested in using the code for commercial use, please contact [inno
 ## Thank you for using LiveTune!
 We're still early in testing, so please [fill out the feedback form if you find any bugs or have feature requests.](https://docs.google.com/forms/d/e/1FAIpQLSfHbM8Jy8w8EDZu_mEV0pH2qtqn3jplsB45KlmVsj6LORrBQQ/viewform?usp=sf_link)
 
-Thank you for using LiveTune! If it's been beneficial to your work, please consider citing our package in your publications. Your support helps us continue our efforts and assists others in discovering LiveTune. We appreciate your acknowledgment.
+Thank you for using LiveTune! If it's been beneficial to your work, please consider citing our paper in your publications. 
+```@article{shabgahi2023livetune,
+  title={LiveTune: Dynamic Parameter Tuning for Training Deep Neural Networks},
+  author={Shabgahi, Soheil Zibakhsh and Sheybani, Nojan and Tabrizi, Aiden and Koushanfar, Farinaz},
+  journal={arXiv preprint arXiv:2311.17279},
+  year={2023}
+}
+```
+Your support helps us continue our efforts and assists others in discovering LiveTune. We appreciate your acknowledgment.
