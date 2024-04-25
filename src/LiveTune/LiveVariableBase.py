@@ -19,9 +19,13 @@ class LiveVariableBase:
         if not isinstance(tag, str):
             raise TypeError("Tag must be a string.")
         
-        for instance in self.instances:
+        for i, instance in enumerate(self.instances):
             if instance.tag == tag:
-                raise Warning(f"{Color.RED}[WARN]{Color.END} {Color.YELLOW}{tag} already exists. Reusing tag names may have unintended consequences.{Color.END}")
+                # raise Warning(f"{Color.RED}[WARN]{Color.END} {Color.YELLOW}{tag} already exists. Reusing tag names may have unintended consequences.{Color.END}")
+                print(f"{Color.RED}[WARN]{Color.END} {Color.YELLOW}{tag} already exists. Reusing tag names may have unintended consequences.{Color.END}")
+                # del instance
+                self.instances.pop(i)
+                break
 
         if self.dictionary_port == []:
             sock = socket.socket()
@@ -151,3 +155,6 @@ class LiveVariableBase:
                 client_thread.start()
         finally:
             listenerSocket.close()
+
+    def get_dictionary_port(self):
+        return self.dictionary_port[0]

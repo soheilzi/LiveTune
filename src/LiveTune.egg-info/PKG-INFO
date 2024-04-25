@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: LiveTune
-Version: 0.0.7
+Version: 0.0.8
 Summary: Python package for ML developers and researchers to change certain variables while their code is executing to make the task of training a ML project easier. This package will allow you to tune some parameters while your code is live from outside of the program.
 Home-page: https://github.com/soheilzi/LiveTune
 Author: Soheil Zibakhsh Shabgahi, Aiden Tabrizi
@@ -31,7 +31,7 @@ LiveTune is a cutting-edge Python package that empowers Machine Learning develop
 1. Ensure you have PyPi installed. If not, [follow these instructions](https://packaging.python.org/en/latest/tutorials/installing-packages/).
 2. Execute the following command in your terminal:
 ```bash
-pip install -i https://test.pypi.org/simple/ LiveTune==0.0.7
+pip install -i https://test.pypi.org/simple/ LiveTune==0.0.8
 ```
 
 ## Key Features

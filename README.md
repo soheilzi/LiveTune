@@ -17,7 +17,7 @@ LiveTune is a cutting-edge Python package that empowers Machine Learning develop
 1. Ensure you have PyPi installed. If not, [follow these instructions](https://packaging.python.org/en/latest/tutorials/installing-packages/).
 2. Execute the following command in your terminal:
 ```bash
-pip install -i https://test.pypi.org/simple/ LiveTune==0.0.7
+pip install -i https://test.pypi.org/simple/ LiveTune==0.0.8
 ```
 
 ## Key Features
