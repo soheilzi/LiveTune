@@ -162,7 +162,7 @@ If all tests pass, LiveTune is working correctly. If contributing, please run al
 ## Authors
 
 - Soheil Zibakhsh Shabgahi - [szibakhshshabgahi@ucsd.edu](mailto:szibakhshshabgahi@ucsd.edu)
-- Aiden Tabrizi - [atabrizi@ucsd.edu](mailto:atabrizi@ucsd.edu)
+- Aiden Tabrizi - [aidenkt@berkeley.edu](mailto:aidenkt@berkeley.edu)
 
 ### Contact
 If you are interested in using the code for commercial use, please contact [innovation@ucsd.edu](mailto:innovation@ucsd.edu)
