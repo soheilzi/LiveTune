@@ -11,7 +11,7 @@ LiveTune is a cutting-edge Python package that empowers Machine Learning develop
 |:--------|:------:|
 | MacOS 🍎 | Supported |
 | Linux 🐧 | Supported |
-| Windows 🪟 | Not Yet Tested |
+| Windows 🪟 | Untested |
 
 ### Installation Guide
 
